@@ -1,0 +1,58 @@
+baseURL: "https://0dot77.github.io/"
+languageCode: "ko-kr"
+title: "Imagine . Create . Share"
+theme: "PaperMod"
+
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    noClasses: false
+    anchorLineNos: true
+    codeFences: true
+    guessSyntax: true
+    lineNos: true
+    style: monokai
+
+menu:
+  main:
+    - identifier: daily
+      name: Daily Immersive
+      url: /daily/
+      weight: 10
+    - identifier: sprint
+      name: 3Days Sprint
+      url: /sprint/
+      weight: 20
+    - identifier: about
+      name: About
+      url: /about/
+      weight: 30
+
+params:
+  defaultTheme: auto
+  ShowReadingTime: true
+  ShowShareButtons: false
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  
+  profileMode:
+    enabled: true
+    title: "0dot77"
+    subtitle: "Media Artist & Developer & Explorer"
+    buttons:
+      - name: Daily Immersive
+        url: /daily
+      - name: 3Days Sprint
+        url: /sprint
+
+  cover:
+    hidden: false
+    hiddenInList: false
+    hiddenInSingle: false

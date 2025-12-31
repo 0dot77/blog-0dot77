@@ -1,0 +1,95 @@
+{
+  "$schema": "https://frontmatter.codes/frontmatter.schema.json",
+  "frontMatter.framework.id": "hugo",
+  "frontMatter.content.pageFolders": [
+    {
+      "path": "[[workspace]]/content/daily",
+      "title": "Daily Immersive",
+      "filePrefix": null,
+      "previewPath": null,
+      "contentTypes": ["daily_post"]
+    },
+    {
+      "path": "[[workspace]]/content/sprint",
+      "title": "3-Day Sprint",
+      "filePrefix": null,
+      "previewPath": null,
+      "contentTypes": ["sprint_post"]
+    }
+  ],
+  "frontMatter.taxonomy.contentTypes": [
+    {
+      "name": "daily_post",
+      "pageBundle": true,
+      "fields": [
+        { 
+          "name": "title", 
+          "type": "string", 
+          "title": "Title (Day-000 주제)" 
+        },
+        { 
+          "name": "summary", 
+          "type": "string", 
+          "title": "Summary (3줄 요약)" 
+        },
+        { 
+          "name": "tags", 
+          "type": "tags", 
+          "title": "Tags" 
+        },
+        { 
+          "name": "date", 
+          "type": "datetime", 
+          "title": "Date",
+          "default": "{{now}}",
+          "isPublishDate": true
+        },
+        { 
+          "name": "cover.image", 
+          "type": "image", 
+          "title": "Cover Image" 
+        },
+        {
+          "name": "cover.alt",
+          "type": "string",
+          "title": "Image Alt Text (Optional)"
+        }
+      ]
+    },
+    {
+        "name": "sprint_post",
+        "pageBundle": true,
+        "template": ".frontmatter/templates/sprint_post.md",
+        "fields": [
+          { 
+            "name": "title", 
+            "type": "string", 
+            "title": "Project Name" 
+          },
+          { 
+            "name": "summary", 
+            "type": "string", 
+            "title": "Project Summary" 
+          },
+          {
+            "name": "date",
+            "type": "datetime",
+            "title": "Date",
+            "default": "{{now}}",
+            "isPublishDate": true
+          },
+          { 
+            "name": "tags", 
+            "type": "tags", 
+            "title": "Tags" 
+          },
+          { 
+            "name": "cover.image", 
+            "type": "image", 
+            "title": "Cover Image" 
+          }
+        ]
+      }
+  ],
+  "frontMatter.git.enabled": true
+}
