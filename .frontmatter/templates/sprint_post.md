@@ -1,5 +1,3 @@
-## Idea Sketch
-
 ## Tools
 
 - **작업에 사용될 툴**:

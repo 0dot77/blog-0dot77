@@ -3,8 +3,9 @@ title: Daily Immersive - 037
 summary: ""
 tags: ["dailyimmersive", "visionos", "swfitUI"]
 date: 2025-12-30
-cover.image: ""
-cover.alt: ""
+cover:
+    image: "d-1230.jpeg"
+    alt: ""
 fmContentType: daily_post
 ---
 ## Work Structure
@@ -44,10 +45,43 @@ fmContentType: daily_post
 
 - ECS 시스템 참고 자료
   - [My First ECS](https://github.com/daniloc/MyFirstECS/tree/main)
+
+- 메인 View에서 제스쳐, 혹은 호버링 참조에 엔티티 필요 시
+    - 바라봤을 때의 호버링 이벤트는 Apple 측에서 막아둠
+
+- 같은 오브젝트를 다중으로 쓰거나, 다른 방식으로 사용할 때 Component로 태그를 만들어서 관리
+  - 같은 도메인 파일로 묶어서 Set 해서 사용하기
+  
+```swift
+// HeartTags.swift
+
+import RealityKit
+
+struct HeartMainTagComponent: Component {}
+struct SmallHeartTagComponet: Component {}
+
+```
+- 위의 태그 컴포넌트 묶음의 경우에는 데이터가 존재하는 컴포넌트나 시스템처럼 Register 해줄 필욘 없음
+  - 태그는 컴포넌트이긴 하지만, 엔진 타입 테이블에 올릴 타입은 아님
+
+- actor
+  - 자기 안에 있는 데이터를 동시에 두 군데에서 접근하지 못하도록 막아줌
+  - 호출 순서의 보장이 필요하기 때문에 `async` 를 사용해야 함
+
+- 오브젝트 구조
+  - 오브젝트의 컴포넌트의 구조에서 어떤 오브젝트에 컴포넌트를 붙이느냐에 따라 같은 계층 구조 내부라도 결과가 너무 달라짐
+  - 계층 구조를 항상 염두하며 구성해야함
+
 ---
 
 ## Result
 
+[Youtube - Daily Immersive 037 ECS with Hearts](https://youtu.be/Hvq3MyAzvo0)
+
 ---
 
 ## One Line Summary
+
+- ECS 시스템에 적응할 때까지 시간이 좀 걸릴 것 같음
+  - 유니티 같은 게임 엔진이 아니기 때문에 생각보다 수작업으로 해주어야 하는 일들이 많음
+  - 하지만 재밌음

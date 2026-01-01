@@ -3,13 +3,11 @@ title: Sprint 001
 summary: "IOS 앱과 블랜더 지오메트리 노드 연동해보기"
 date: 2025-12-31T03:22:38.518Z
 tags: ["swiftui", "blender", "geometrynode", "osc"]
-cover.image: ""
+cover:
+    image: "s-001.jpeg"
+    alt: ""
 fmContentType: sprint_post
 ---
-## Idea Sketch
-
-![sketchImage](s-001.jpeg)
-
 ## Tools
 
 - **작업에 사용될 툴**: Blender, SwiftUI

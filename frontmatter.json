@@ -45,16 +45,23 @@
           "default": "{{now}}",
           "isPublishDate": true
         },
-        { 
-          "name": "cover.image", 
-          "type": "image", 
-          "title": "Cover Image" 
+            { 
+        "name": "cover", 
+        "type": "fields",
+        "title": "Cover Image Settings",
+        "fields": [
+        {
+            "name": "image",
+            "type": "image",
+            "title": "Cover Image"
         },
         {
-          "name": "cover.alt",
-          "type": "string",
-          "title": "Image Alt Text (Optional)"
+            "name": "alt",
+            "type": "string",
+            "title": "Image Alt Text (Optional)"
         }
+        ]
+    }
       ]
     },
     {
@@ -84,10 +91,17 @@
             "type": "tags", 
             "title": "Tags" 
           },
-          { 
-            "name": "cover.image", 
-            "type": "image", 
-            "title": "Cover Image" 
+          {
+            "name": "cover",
+            "type": "fields",
+            "title": "Cover Image Settings",
+            "fields": [
+              {
+                "name": "image",
+                "type": "image",
+                "title": "Cover Image"
+              }
+            ]
           }
         ]
       }
