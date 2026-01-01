@@ -1,0 +1,8 @@
+/* Daily post typography tweaks (keep sprint default sizes) */
+
+.daily-single .post-content h2 {
+  font-size: 24px; /* PaperMod default is 32px; daily templates have many h2s */
+  margin: 24px auto 16px;
+}
+
+

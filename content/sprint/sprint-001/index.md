@@ -8,11 +8,11 @@ fmContentType: sprint_post
 ---
 ## Idea Sketch
 
-![sketchImage](sprint-001.jpeg)
+![sketchImage](s-001.jpeg)
 
 ## Tools
 
-- **작업에 사용될 툴**:
+- **작업에 사용될 툴**: Blender, SwiftUI
 
 ---
 

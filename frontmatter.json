@@ -21,6 +21,7 @@
     {
       "name": "daily_post",
       "pageBundle": true,
+    "template": ".frontmatter/templates/daily_post.md",
       "fields": [
         { 
           "name": "title", 
