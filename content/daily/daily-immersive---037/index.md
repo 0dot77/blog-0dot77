@@ -21,6 +21,7 @@ fmContentType: daily_post
 ---
 
 ## Just DO IT
+> 모르거나 헷갈리는 것을 정리하며 나아가기
 
 - 데이터 흐름 설계
   - 앱 시작 -> openImmersiveSpace(id:) 호출 -> ARKit 구동 -> 하트 생성 -> 핀치 인터랙션

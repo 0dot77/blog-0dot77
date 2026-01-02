@@ -15,11 +15,9 @@ fmContentType: daily_post
 
 ---
 
-## Unknown List
+## JUST DO IT 
+> 모르거나 헷갈리는 것을 정리하며 나아가기
 
---- 
-
-## Solved / Partially Solved
 
 ---
 

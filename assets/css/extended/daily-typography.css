@@ -5,4 +5,16 @@
   margin: 24px auto 16px;
 }
 
+.daily-single .post-content h3 {
+  font-size: 20px; /* PaperMod default is 24px */
+  margin: 20px auto 12px;
+  font-weight: 600;
+}
+
+.daily-single .post-content h4 {
+  font-size: 18px; /* PaperMod default is 16px */
+  margin: 16px auto 10px;
+  font-weight: 600;
+}
+
 
