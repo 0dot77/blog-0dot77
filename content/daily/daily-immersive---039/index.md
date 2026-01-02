@@ -4,7 +4,7 @@ summary: ""
 tags: ["visionos", "swiftui", "dailyimmersive"]
 date: 2026-01-01T07:58:31.409Z
 cover:
-    image: ""
+    image: "d-260101.jpeg"
     alt: ""
 fmContentType: daily_post
 ---
@@ -51,9 +51,19 @@ fmContentType: daily_post
 ### RCP Shader
 
 - RCP Shader Graph에서 작업할 때는 항상 인스펙터를 신경써야 함
+  - 타입을 자동으로 인지해서 캐스팅을 해주지 않기 때문에 현재로서는 Multiply 같은 기능을 작업할 때 항상 인풋의 값 개수를 잡아주어야 함
+
+- Unity Shader 그래프처럼 RCP Shader 그래프에서도 충분히 움직임 작업이 가능함.
+  - Positon, Normal, Time을 적절히 섞어서 작업
+
 
 ## Result
+
 
 ---
 
 ## One Line Summary
+
+- Blender의 Geometry Node는 Touchdesigner 만큼이나 흥미로움
+  - 외부 장치들과 연계해서 작업할 수 있는 방법도 찾아보면 좋을 것 같음
+  - 파이썬을 바로 받을 수 있다는 것이 큰 장점인 것 같음

@@ -22,15 +22,14 @@ This blog serves as an archive for my personal sketches, experiments, and **tria
 *Role: Technical Director / Period: 2025.02 - 2025.10*
 - Description of the project...
 - **Key Tech:** Unity, MetaSDK, Multiplay
-- [View Project ->](링크가_있다면_여기에)
 
 
 ---
 
 ### 👨🏼‍🏫 Lectures
 
-**Digital Media Visual 1-2 (BFA)**
-*Korea National University of Arts / 2026 -*
+<!-- **Digital Media Visual 1-2 (BFA)**
+*Korea National University of Arts / 2026 -* -->
 
 **Stage Design (BFA)**
 *Korea National University of Arts / 2025 -*
@@ -64,4 +63,8 @@ This blog serves as an archive for my personal sketches, experiments, and **tria
 - **Web** Three.js / React / Next.js
 - **AI** ComfyUI / n8n
 
+---
 
+### 🤙🏼 Contact
+
+E-mail _ yty0706@gamil.com
