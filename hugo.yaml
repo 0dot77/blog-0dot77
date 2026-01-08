@@ -19,6 +19,13 @@ markup:
     lineNos: true
     style: monokai
 
+# 이미지 최적화 설정
+imaging:
+  resampleFilter: "Lanczos"
+  quality: 85
+  hint: "photo"
+  anchor: "Smart"
+
 menu:
   main:
     - identifier: daily
@@ -56,3 +63,5 @@ params:
     hidden: false
     hiddenInList: false
     hiddenInSingle: false
+    responsiveImages: true  # 반응형 이미지 활성화
+    linkFullImages: false

@@ -47,20 +47,21 @@
 
 {{- $pages = $pages.ByDate.Reverse }}
 
-{{- $paginator := .Paginate $pages }}
+{{- /* 무한 스크롤: 페이지네이션 없이 모든 페이지 표시 */ -}}
+{{- /* lazy loading은 cover.html에서 자동으로 처리됨 */ -}}
 
-{{- if and .IsHome site.Params.homeInfoParams (eq $paginator.PageNumber 1) }}
+{{- if and .IsHome site.Params.homeInfoParams }}
 {{- partial "home_info.html" . }}
 {{- end }}
 
 <div class="ig-grid">
   {{- $term := .Data.Term }}
-  {{- range $index, $page := $paginator.Pages }}
+  {{- range $index, $page := $pages }}
 
   {{- $class := "post-entry" }}
 
   {{- $user_preferred := or site.Params.disableSpecial1stPost site.Params.homeInfoParams }}
-  {{- if (and $.IsHome (eq $paginator.PageNumber 1) (eq $index 0) (not $user_preferred)) }}
+  {{- if (and $.IsHome (eq $index 0) (not $user_preferred)) }}
   {{- $class = "first-entry" }}
   {{- else if $term }}
   {{- $class = "post-entry tag-entry" }}
@@ -97,28 +98,7 @@
   {{- end }}
 </div>
 
-{{- if gt $paginator.TotalPages 1 }}
-<footer class="page-footer">
-  <nav class="pagination">
-    {{- if $paginator.HasPrev }}
-    <a class="prev" href="{{ $paginator.Prev.URL | absURL }}">
-      «&nbsp;{{ i18n "prev_page" }}&nbsp;
-      {{- if (.Param "ShowPageNums") }}
-      {{- sub $paginator.PageNumber 1 }}/{{ $paginator.TotalPages }}
-      {{- end }}
-    </a>
-    {{- end }}
-    {{- if $paginator.HasNext }}
-    <a class="next" href="{{ $paginator.Next.URL | absURL }}">
-      {{- i18n "next_page" }}&nbsp;
-      {{- if (.Param "ShowPageNums") }}
-      {{- add 1 $paginator.PageNumber }}/{{ $paginator.TotalPages }}
-      {{- end }}&nbsp;»
-    </a>
-    {{- end }}
-  </nav>
-</footer>
-{{- end }}
+{{- /* 페이지네이션 제거: 무한 스크롤 방식으로 모든 콘텐츠 표시 */ -}}
 
 {{- end }}{{/* end profileMode */}}
 
