@@ -59,6 +59,7 @@ fmContentType: daily_post
 
 ## Result
 
+[Daily Immersive - 039, HAPPY](https://youtu.be/rU7IfguZc8c)
 
 ---
 

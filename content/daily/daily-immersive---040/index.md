@@ -66,6 +66,8 @@ URP 포스트 프로세싱 (Bloom, Tone Mapping...)
 
 ## Result
 
+[Daily Immersive - 040, Comic Book Test](https://youtu.be/8pqZSstCHtM)
+
 ---
 
 ## One Line Summary

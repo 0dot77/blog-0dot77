@@ -46,6 +46,8 @@ Unity 씬
 
 ## Result
 
+[Daily Immersive - 038, Passthrough Render Test](https://youtu.be/uGYjwmGq9ys)
+
 ---
 
 ## One Line Summary
