@@ -3,8 +3,9 @@ title: Daily Immersive - 038
 summary: ""
 tags: ["dailyimmersive", "unity", "metaSDK"]
 date: 2025-12-31T11:22:07.691Z
-cover.image: "d-251231.jpeg"
-cover.alt: ""
+cover:
+  image: "d-251231.jpeg"
+  alt: ""
 fmContentType: daily_post
 ---
 ## Work Structure
