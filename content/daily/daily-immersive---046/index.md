@@ -19,6 +19,8 @@ fmContentType: daily_post
 
 ## Result
 
+[Daily Immersive - 046, Compute Shader Test](https://youtu.be/2ZfNsB7aUus)
+
 ---
 
 ## One Line Summary

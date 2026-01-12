@@ -19,6 +19,8 @@ fmContentType: daily_post
 
 ## Result
 
+[Daily Immerisve - 048, Pinch and Text Gen](https://youtu.be/nGGMsbUPj68)
+
 ---
 
 ## One Line Summary

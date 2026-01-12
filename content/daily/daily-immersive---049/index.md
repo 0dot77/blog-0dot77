@@ -30,6 +30,8 @@ fmContentType: daily_post
 
 ## Result
 
+[Daily Immersive - 049, Slider + Shader](https://youtu.be/1LqJD0cVvPE)
+
 ---
 
 ## One Line Summary

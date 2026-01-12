@@ -98,6 +98,8 @@ struct DailyImmersive_260103App: App {
 
 ## Result
 
+[Daily Immersive - 041, Egg and Chick](https://youtu.be/G3075zNFBPM)
+
 ---
 
 ## One Line Summary

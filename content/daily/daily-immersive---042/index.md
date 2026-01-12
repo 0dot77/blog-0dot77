@@ -19,6 +19,8 @@ fmContentType: daily_post
 
 ## Result
 
+[Daily Immersive - 042, Custom Render Passes](https://youtu.be/PF63GTBbgd8)
+
 ---
 
 ## One Line Summary

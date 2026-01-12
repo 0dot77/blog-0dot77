@@ -1,8 +1,8 @@
 ---
-title: Daily Immersive - 044
+title: Daily Immersive - 050
 summary: ""
 tags: []
-date: 2026-01-06
+date: 2026-01-12T20:58:44.143Z
 cover:
   image: ""
   alt: ""
@@ -19,7 +19,7 @@ fmContentType: daily_post
 
 ## Result
 
-[Daily Immersive - 044, L-System](https://youtu.be/fjjobnmmxUs)
+[Daily Immersive - 050, Line + Text Gen](https://youtu.be/wPzEfyzfN7I)
 
 ---
 

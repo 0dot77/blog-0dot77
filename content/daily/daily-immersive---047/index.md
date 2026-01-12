@@ -45,6 +45,8 @@ guard let model = Entity(named:"Cube", in: RealityKitContentBundle) else { retur
 
 ## Result
 
+[Daily Immersive - 047, Slider +](https://youtu.be/7LySqH0Xvmo)
+
 ---
 
 ## One Line Summary

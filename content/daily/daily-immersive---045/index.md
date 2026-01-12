@@ -92,6 +92,8 @@ RealityView { content, attachments in
 
 ## Result
 
+[Daily Immersive - 045, RCP-Shader Graph](https://youtu.be/iujF4dVrlqg)
+
 ---
 
 ## One Line Summary

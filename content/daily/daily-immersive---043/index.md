@@ -42,6 +42,8 @@ fmContentType: daily_post
 
 ## Result
 
+[Daily Immersive - 043, Audio Reactive](https://youtu.be/aeVGrXNCljY)
+
 ---
 
 ## One Line Summary
