@@ -1,14 +1,17 @@
 ---
 title: Daily Immersive - 044
 summary: ""
-tags: []
+tags: ["unity", "dailyimmersive", "L-System"]
 date: 2026-01-06
 cover:
-  image: ""
+  image: "d-260106.jpeg"
   alt: ""
 fmContentType: daily_post
 ---
 ## Work Structure
+
+1. 손을 특정 트리거에 가져가기
+2. 트리거 존에 들어가면 L-System 생성 및 자라남
 
 ---
 
