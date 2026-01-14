@@ -1,30 +1,36 @@
+---
+title: Sprint 002
+summary: ""
+date: 2026-01-14T15:23:35.058Z
+tags: []
+cover:
+  image: "s-002.jpeg"
+fmContentType: sprint_post
+---
 ## Tools
 
-- **작업에 사용될 툴**
+- **작업에 사용될 툴**:
 
 ---
 
-<!-- ## 0. Result
+<!-- ## 0. Result (3-Second Hook) -->
 
-### 디스코드 요청
-<p align="center">
-  <img width="50%" src="" />
-</p> -->
 
-<!-- ---
+<!--
+
+---
 
 ## 🏁 Day 1: Hypothesis (가설 & 기획)
 > "이게 될까? 일단 화면에 띄워보자."
 
 ### 🎯 Goal
+* **Objective:** (예: VisionOS에서 물 100리터 쏟기)
+* **Key Question:** (예: 쉐이더로만 구현 가능한가?)
 
-1.
-2.
-3.
+### 🛠 Rough Prototype
+* (어떻게 엉성하게라도 구현했는지 기록)
 
-### 🛠 Day 1
-
-<!-- ---
+---
 
 ## 🚧 Day 2: The Struggle (삽질 & 깊이)
 > "역시 쉽게 되는 건 없다. 왜 안 될까?"
@@ -35,9 +41,10 @@
 
 ### 💡 Troubleshooting (해결 과정)
 1. (시도 1) -> 실패
-2. (시도 2) -> 성공/실패 -->
+2. (시도 2) -> 성공/실패
 
-<!-- 
+---
+
 ## 📝 Day 3: Retrospective (회고)
 > "성공했든 실패했든, 데이터는 남았다."
 
@@ -45,12 +52,13 @@
 *
 
 ### 🚀 Next Step
-* -->
+*
 
 ---
 
 ## 🔗 Links
 * [GitHub Repository ->]()
 
+-->
 
 
