@@ -229,7 +229,7 @@ const lectures = [
 ];
 
 const education = [
-  { title: "한국예술종합학교 융합예술센터", major: "Multimedia", period: "2023 -" },
+  { title: "한국예술종합학교 영상원", major: "Multimedia", period: "2023 -" },
   { title: "한국예술종합학교 전통예술원", major: "Korean Traditional Arts Theory", period: "2017 - 2022" },
 ];
 
