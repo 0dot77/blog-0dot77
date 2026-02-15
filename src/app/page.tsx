@@ -21,9 +21,7 @@ export default function Home() {
             Media Artist &middot; Developer &middot; Technical Director
           </p>
         </div>
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
-          <div className="w-px h-12 bg-border animate-pulse" />
-        </div>
+
       </section>
 
       {/* Recent Blog Posts */}
