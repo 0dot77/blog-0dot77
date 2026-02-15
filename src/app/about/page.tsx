@@ -236,21 +236,21 @@ const education = [
 export default function AboutPage() {
   return (
     <div className="pt-24 pb-20">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+      <div className="max-w-7xl mx-auto px-6 md:px-12">
         {/* Hero */}
         <div className="py-16 border-b border-border mb-12">
-          <h1 className="font-[family-name:var(--font-mono)] text-5xl font-bold text-text mb-3">
+          <h1 className="font-mono text-5xl font-bold text-text mb-3">
             &gt; Taeyang Yoo
           </h1>
-          <p className="font-[family-name:var(--font-mono)] text-lg text-accent">
+          <p className="font-mono text-lg text-accent">
             Media Artist &middot; Developer &middot; Technical Director
           </p>
         </div>
 
         {/* Bio */}
-        <section className="max-w-[720px] mb-16">
-          <h2 className="font-[family-name:var(--font-mono)] text-sm text-accent mb-6">
-            // bio
+        <section className="max-w-3xl mb-16">
+          <h2 className="font-mono text-sm text-accent mb-6">
+            {"// bio"}
           </h2>
           <p className="text-base leading-relaxed text-text mb-5">
             Hello, I am Taeyang Yoo (0dot77), a developer and media artist. I am
@@ -265,9 +265,9 @@ export default function AboutPage() {
         </section>
 
         {/* Project Timeline */}
-        <section className="max-w-[720px] mb-16">
-          <h2 className="font-[family-name:var(--font-mono)] text-sm text-accent mb-6">
-            // project_timeline
+        <section className="max-w-3xl mb-16">
+          <h2 className="font-mono text-sm text-accent mb-6">
+            {"// project_timeline"}
           </h2>
           {projects.map((yearGroup) => (
             <div
@@ -275,7 +275,7 @@ export default function AboutPage() {
               className="flex gap-6 py-6 border-b border-border"
             >
               <div className="shrink-0 w-14">
-                <span className="font-[family-name:var(--font-mono)] text-sm font-bold text-accent">
+                <span className="font-mono text-sm font-bold text-accent">
                   {yearGroup.year}
                 </span>
               </div>
@@ -285,7 +285,7 @@ export default function AboutPage() {
                     <h3 className="text-base font-semibold text-text">
                       <span className="text-accent mr-2">-</span>{item.title}
                     </h3>
-                    <p className="font-[family-name:var(--font-mono)] text-xs text-text-secondary mt-1">
+                    <p className="font-mono text-xs text-text-secondary mt-1">
                       {item.role} &middot; {item.period}
                     </p>
                     <p className="text-sm text-text-secondary mt-1">
@@ -306,14 +306,14 @@ export default function AboutPage() {
         </section>
 
         {/* Skills */}
-        <section className="max-w-[720px] mb-16">
-          <h2 className="font-[family-name:var(--font-mono)] text-sm text-accent mb-6">
-            // skills
+        <section className="max-w-3xl mb-16">
+          <h2 className="font-mono text-sm text-accent mb-6">
+            {"// skills"}
           </h2>
           <div className="flex flex-col gap-8">
             {Object.entries(skills).map(([category, items]) => (
               <div key={category}>
-                <h3 className="font-[family-name:var(--font-mono)] text-sm font-semibold text-text mb-3">
+                <h3 className="font-mono text-sm font-semibold text-text mb-3">
                   {category}
                 </h3>
                 <div className="flex flex-wrap gap-2">
@@ -329,15 +329,15 @@ export default function AboutPage() {
         </section>
 
         {/* Lectures */}
-        <section className="max-w-[720px] mb-16">
-          <h2 className="font-[family-name:var(--font-mono)] text-sm text-accent mb-6">
-            // lectures
+        <section className="max-w-3xl mb-16">
+          <h2 className="font-mono text-sm text-accent mb-6">
+            {"// lectures"}
           </h2>
           <div className="flex flex-col gap-4">
             {lectures.map((lec, i) => (
               <div key={i}>
                 <h3 className="text-base font-semibold text-text">{lec.title}</h3>
-                <p className="font-[family-name:var(--font-mono)] text-xs text-text-secondary mt-1">
+                <p className="font-mono text-xs text-text-secondary mt-1">
                   {lec.org} / {lec.period}
                 </p>
               </div>
@@ -346,15 +346,15 @@ export default function AboutPage() {
         </section>
 
         {/* Education */}
-        <section className="max-w-[720px] mb-16">
-          <h2 className="font-[family-name:var(--font-mono)] text-sm text-accent mb-6">
-            // education
+        <section className="max-w-3xl mb-16">
+          <h2 className="font-mono text-sm text-accent mb-6">
+            {"// education"}
           </h2>
           <div className="flex flex-col gap-4">
             {education.map((edu, i) => (
               <div key={i}>
                 <h3 className="text-base font-semibold text-text">{edu.title}</h3>
-                <p className="font-[family-name:var(--font-mono)] text-xs text-text-secondary mt-1">
+                <p className="font-mono text-xs text-text-secondary mt-1">
                   {edu.major} / {edu.period}
                 </p>
               </div>
@@ -363,44 +363,44 @@ export default function AboutPage() {
         </section>
 
         {/* Contact */}
-        <section className="max-w-[720px]">
-          <h2 className="font-[family-name:var(--font-mono)] text-sm text-accent mb-6">
-            // contact
+        <section className="max-w-3xl">
+          <h2 className="font-mono text-sm text-accent mb-6">
+            {"// contact"}
           </h2>
           <div className="flex flex-col gap-3">
             <div className="flex items-center gap-3">
-              <span className="font-[family-name:var(--font-mono)] text-sm text-accent">
+              <span className="font-mono text-sm text-accent">
                 $
               </span>
               <Link
                 href="mailto:yty0706@gmail.com"
-                className="font-[family-name:var(--font-mono)] text-base text-text hover:text-accent transition-colors"
+                className="font-mono text-base text-text hover:text-accent transition-colors"
               >
                 yty0706@gmail.com
               </Link>
             </div>
             <div className="flex items-center gap-3">
-              <span className="font-[family-name:var(--font-mono)] text-sm text-accent">
+              <span className="font-mono text-sm text-accent">
                 $
               </span>
               <Link
                 href="https://github.com/0dot77"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-[family-name:var(--font-mono)] text-base text-text hover:text-accent transition-colors"
+                className="font-mono text-base text-text hover:text-accent transition-colors"
               >
                 github.com/0dot77
               </Link>
             </div>
             <div className="flex items-center gap-3">
-              <span className="font-[family-name:var(--font-mono)] text-sm text-accent">
+              <span className="font-mono text-sm text-accent">
                 $
               </span>
               <Link
                 href="https://instagram.com/0dot77"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-[family-name:var(--font-mono)] text-base text-text hover:text-accent transition-colors"
+                className="font-mono text-base text-text hover:text-accent transition-colors"
               >
                 instagram.com/0dot77
               </Link>
