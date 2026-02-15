@@ -1,0 +1,46 @@
+fragment DailyParts on Daily {
+  __typename
+  title
+  number
+  summary
+  tags
+  date
+  cover {
+    __typename
+    image
+    alt
+  }
+  fmContentType
+  body
+}
+
+fragment SprintParts on Sprint {
+  __typename
+  title
+  number
+  summary
+  tags
+  date
+  cover {
+    __typename
+    image
+    alt
+  }
+  fmContentType
+  body
+}
+
+fragment BlogParts on Blog {
+  __typename
+  title
+  summary
+  tags
+  date
+  cover {
+    __typename
+    image
+    alt
+  }
+  fmContentType
+  body
+}
