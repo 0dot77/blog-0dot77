@@ -20,6 +20,7 @@ export default function HeroGrid() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({ x: -9999, y: -9999 });
   const particlesRef = useRef<Particle[]>([]);
+  const sizeRef = useRef({ w: 0, h: 0 });
   const rafRef = useRef<number>(0);
   const [mounted, setMounted] = useState(false);
 
@@ -52,9 +53,22 @@ export default function HeroGrid() {
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
       ctx.scale(dpr, dpr);
+
+      const newW = rect.width;
+      const newH = rect.height;
+      const oldW = sizeRef.current.w;
+      const oldH = sizeRef.current.h;
+
       if (particlesRef.current.length === 0) {
-        initParticles(rect.width, rect.height);
+        initParticles(newW, newH);
+      } else if (oldW > 0 && oldH > 0) {
+        const particles = particlesRef.current;
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].x = (particles[i].x / oldW) * newW;
+          particles[i].y = (particles[i].y / oldH) * newH;
+        }
       }
+      sizeRef.current = { w: newW, h: newH };
     };
     resize();
     window.addEventListener("resize", resize);
