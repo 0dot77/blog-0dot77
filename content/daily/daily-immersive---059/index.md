@@ -27,6 +27,8 @@ fmContentType: daily_post
 
 ## Result
 
+[Daily Immersive - 059, Grab and Release](https://youtu.be/yjkGXRdrE_Q)
+
 ---
 
 ## One Line Summary
