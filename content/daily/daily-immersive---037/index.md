@@ -1,7 +1,7 @@
 ---
 title: Daily Immersive - 037
 summary: ""
-tags: ["dailyimmersive", "visionos", "swfitUI"]
+tags: ["dailyimmersive", "visionos", "swiftUI"]
 date: 2025-12-30
 cover:
     image: "d-1230.jpeg"
