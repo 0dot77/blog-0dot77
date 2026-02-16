@@ -27,9 +27,9 @@ export default async function SprintPostPage({ params }: { params: Promise<{ slu
 
   return (
     <div className="pt-24 pb-20">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+      <div className="max-w-360 mx-auto px-6 md:px-12">
         {/* Breadcrumb */}
-        <nav className="font-[family-name:var(--font-mono)] text-sm text-text-secondary mb-8">
+        <nav className="font-(family-name:--font-mono) text-sm text-text-secondary mb-8">
           <Link href="/sprint" className="hover:text-accent transition-colors">
             Sprint
           </Link>
@@ -51,12 +51,12 @@ export default async function SprintPostPage({ params }: { params: Promise<{ slu
         )}
 
         {/* Post Meta */}
-        <div className="max-w-[720px] mx-auto mb-10">
+        <div className="max-w-180 mx-auto mb-10">
           <h1 className="text-3xl md:text-4xl font-bold text-text mb-4">
             {post.title}
           </h1>
           <div className="flex items-center gap-4 flex-wrap mb-4">
-            <span className="font-[family-name:var(--font-mono)] text-sm text-text-secondary">
+            <span className="font-(family-name:--font-mono) text-sm text-text-secondary">
               {post.date}
             </span>
           </div>
@@ -76,11 +76,11 @@ export default async function SprintPostPage({ params }: { params: Promise<{ slu
         />
 
         {/* Navigation */}
-        <div className="max-w-[720px] mx-auto mt-16 pt-8 border-t border-border flex justify-between">
+        <div className="max-w-180 mx-auto mt-16 pt-8 border-t border-border flex justify-between">
           {prevPost ? (
             <Link
               href={`/sprint/${prevPost.slug}`}
-              className="font-[family-name:var(--font-mono)] text-sm text-text-secondary hover:text-accent transition-colors"
+              className="font-(family-name:--font-mono) text-sm text-text-secondary hover:text-accent transition-colors"
             >
               &larr; {prevPost.title}
             </Link>
@@ -90,7 +90,7 @@ export default async function SprintPostPage({ params }: { params: Promise<{ slu
           {nextPost ? (
             <Link
               href={`/sprint/${nextPost.slug}`}
-              className="font-[family-name:var(--font-mono)] text-sm text-text-secondary hover:text-accent transition-colors"
+              className="font-(family-name:--font-mono) text-sm text-text-secondary hover:text-accent transition-colors"
             >
               {nextPost.title} &rarr;
             </Link>

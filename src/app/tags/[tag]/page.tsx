@@ -35,11 +35,11 @@ export default async function TagPage({ params }: { params: Promise<{ tag: strin
           </div>
         )}
         <div className="p-4">
-          <span className="font-[family-name:var(--font-mono)] text-[10px] text-accent uppercase mb-1 block">
+          <span className="font-(family-name:--font-mono) text-[10px] text-accent uppercase mb-1 block">
             {type}
           </span>
           <h3 className="text-base font-semibold text-text mb-1">{post.title}</h3>
-          <span className="font-[family-name:var(--font-mono)] text-xs text-text-secondary">
+          <span className="font-(family-name:--font-mono) text-xs text-text-secondary">
             {post.date}
           </span>
         </div>
@@ -49,12 +49,12 @@ export default async function TagPage({ params }: { params: Promise<{ tag: strin
 
   return (
     <div className="pt-24 pb-20">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+      <div className="max-w-360 mx-auto px-6 md:px-12">
         <div className="mb-10">
-          <h1 className="font-[family-name:var(--font-mono)] text-4xl font-bold text-text mb-2">
+          <h1 className="font-(family-name:--font-mono) text-4xl font-bold text-text mb-2">
             # {decodedTag}
           </h1>
-          <p className="font-[family-name:var(--font-mono)] text-sm text-text-secondary">
+          <p className="font-(family-name:--font-mono) text-sm text-text-secondary">
             {labPosts.length + sprintPosts.length + blogPosts.length} posts
           </p>
         </div>

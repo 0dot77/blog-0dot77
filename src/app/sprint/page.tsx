@@ -12,13 +12,13 @@ export default function SprintPage() {
 
   return (
     <div className="pt-24 pb-20">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12">
+      <div className="max-w-360 mx-auto px-6 md:px-12">
         {/* Header */}
         <div className="mb-10">
-          <h1 className="font-[family-name:var(--font-mono)] text-4xl font-bold text-text mb-2">
+          <h1 className="font-(family-name:--font-mono) text-4xl font-bold text-text mb-2">
             &gt; sprint
           </h1>
-          <p className="font-[family-name:var(--font-mono)] text-sm text-text-secondary">
+          <p className="font-(family-name:--font-mono) text-sm text-text-secondary">
             3일에 하나씩, 분야를 넓히는 토이 프로젝트
           </p>
         </div>
@@ -48,7 +48,7 @@ export default function SprintPage() {
                     </p>
                   )}
                   <div className="flex items-center gap-4">
-                    <span className="font-[family-name:var(--font-mono)] text-xs text-text-secondary">
+                    <span className="font-(family-name:--font-mono) text-xs text-text-secondary">
                       {post.date}
                     </span>
                     <div className="flex flex-wrap gap-2">

@@ -14,10 +14,10 @@ export default function Home() {
         <div className="absolute inset-0 bg-bg" />
         <HeroGrid />
         <div className="relative z-10 text-center px-6">
-          <h1 className="font-[family-name:var(--font-mono)] text-5xl md:text-7xl font-bold text-text mb-4">
+          <h1 className="font-(family-name:--font-mono) text-5xl md:text-7xl font-bold text-text mb-4">
             Taeyang Yoo
           </h1>
-          <p className="font-[family-name:var(--font-mono)] text-base md:text-lg text-accent">
+          <p className="font-(family-name:--font-mono) text-base md:text-lg text-accent">
             Media Artist &middot; Developer &middot; Technical Director
           </p>
         </div>
@@ -26,14 +26,14 @@ export default function Home() {
 
       {/* Recent Blog Posts */}
       {blogPosts.length > 0 && (
-        <section className="max-w-[820px] mx-auto px-6 md:px-12 py-20">
+        <section className="max-w-205 mx-auto px-6 md:px-12 py-20">
           <div className="flex items-center justify-between mb-10">
-            <h2 className="font-[family-name:var(--font-mono)] text-sm text-accent">
+            <h2 className="font-(family-name:--font-mono) text-sm text-accent">
               // recent_posts
             </h2>
             <Link
               href="/blog"
-              className="font-[family-name:var(--font-mono)] text-sm text-text-secondary hover:text-accent transition-colors"
+              className="font-(family-name:--font-mono) text-sm text-text-secondary hover:text-accent transition-colors"
             >
               $ view all &rarr;
             </Link>
@@ -43,13 +43,13 @@ export default function Home() {
               <Link key={post.slug} href={`/blog/${post.slug}`} className="group">
                 <article className="py-6 border-b border-border">
                   <div className="flex items-center gap-3 mb-2">
-                    <time className="font-[family-name:var(--font-mono)] text-xs text-text-secondary">
+                    <time className="font-(family-name:--font-mono) text-xs text-text-secondary">
                       {post.date}
                     </time>
                     {post.tags.slice(0, 3).map((tag) => (
                       <span
                         key={tag}
-                        className="font-[family-name:var(--font-mono)] text-[10px] text-accent"
+                        className="font-(family-name:--font-mono) text-[10px] text-accent"
                       >
                         #{tag}
                       </span>
@@ -71,14 +71,14 @@ export default function Home() {
       )}
 
       {/* Latest Lab */}
-      <section className="max-w-[1440px] mx-auto px-6 md:px-12 py-20">
+      <section className="max-w-360 mx-auto px-6 md:px-12 py-20">
         <div className="flex items-center justify-between mb-10">
-          <h2 className="font-[family-name:var(--font-mono)] text-sm text-accent">
+          <h2 className="font-(family-name:--font-mono) text-sm text-accent">
             // from_the_lab
           </h2>
           <Link
             href="/lab"
-            className="font-[family-name:var(--font-mono)] text-sm text-text-secondary hover:text-accent transition-colors"
+            className="font-(family-name:--font-mono) text-sm text-text-secondary hover:text-accent transition-colors"
           >
             $ view all &rarr;
           </Link>
@@ -96,17 +96,17 @@ export default function Home() {
                   />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center p-4">
-                    <p className="font-[family-name:var(--font-mono)] text-xs text-text-secondary text-center">
+                    <p className="font-(family-name:--font-mono) text-xs text-text-secondary text-center">
                       {post.title}
                     </p>
                   </div>
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-bg/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
                   <div>
-                    <p className="font-[family-name:var(--font-mono)] text-xs text-text font-medium">
+                    <p className="font-(family-name:--font-mono) text-xs text-text font-medium">
                       {post.title}
                     </p>
-                    <p className="font-[family-name:var(--font-mono)] text-[10px] text-text-secondary mt-1">
+                    <p className="font-(family-name:--font-mono) text-[10px] text-text-secondary mt-1">
                       {post.date}
                     </p>
                   </div>

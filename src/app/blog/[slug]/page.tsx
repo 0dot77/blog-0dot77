@@ -30,9 +30,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   return (
     <div className="pt-24 pb-20">
-      <div className="max-w-[820px] mx-auto px-6 md:px-12">
+      <div className="max-w-205 mx-auto px-6 md:px-12">
         {/* Breadcrumb */}
-        <nav className="font-[family-name:var(--font-mono)] text-sm text-text-secondary mb-8">
+        <nav className="font-(family-name:--font-mono) text-sm text-text-secondary mb-8">
           <Link href="/blog" className="hover:text-accent transition-colors">
             Blog
           </Link>
@@ -46,7 +46,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             {post.title}
           </h1>
           <div className="flex items-center gap-4 flex-wrap">
-            <time className="font-[family-name:var(--font-mono)] text-sm text-text-secondary">
+            <time className="font-(family-name:--font-mono) text-sm text-text-secondary">
               {post.date}
             </time>
             <div className="flex flex-wrap gap-2">
@@ -83,7 +83,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           {prevPost ? (
             <Link
               href={`/blog/${prevPost.slug}`}
-              className="font-[family-name:var(--font-mono)] text-sm text-text-secondary hover:text-accent transition-colors"
+              className="font-(family-name:--font-mono) text-sm text-text-secondary hover:text-accent transition-colors"
             >
               &larr; {prevPost.title}
             </Link>
@@ -93,7 +93,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           {nextPost ? (
             <Link
               href={`/blog/${nextPost.slug}`}
-              className="font-[family-name:var(--font-mono)] text-sm text-text-secondary hover:text-accent transition-colors text-right"
+              className="font-(family-name:--font-mono) text-sm text-text-secondary hover:text-accent transition-colors text-right"
             >
               {nextPost.title} &rarr;
             </Link>
