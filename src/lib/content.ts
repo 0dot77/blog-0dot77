@@ -163,6 +163,20 @@ export async function getBlogPost(slug: string): Promise<Post | null> {
   return getPostBySlug("blog", "", slug);
 }
 
+export async function getAboutContent(): Promise<{ title: string; contentHtml: string }> {
+  const filePath = path.join(contentDir, "about.md");
+  const fileContent = fs.readFileSync(filePath, "utf-8");
+  const { data, content } = matter(fileContent);
+
+  const processedContent = await remark().use(html, { sanitize: false }).process(content);
+  const contentHtml = processedContent.toString();
+
+  return {
+    title: data.title || "About",
+    contentHtml,
+  };
+}
+
 export function getAllTags(): string[] {
   const allPosts = [...getLabPosts(), ...getSprintPosts(), ...getBlogPosts()];
   const tagSet = new Set<string>();

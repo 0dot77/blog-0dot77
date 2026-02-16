@@ -268,6 +268,32 @@ export default defineConfig({
           },
         ],
       },
+
+      // ── About ──
+      {
+        name: "about",
+        label: "About",
+        path: "content",
+        format: "md",
+        match: {
+          include: "about",
+        },
+        fields: [
+          {
+            name: "title",
+            label: "Title",
+            type: "string",
+            isTitle: true,
+            required: true,
+          },
+          {
+            name: "body",
+            label: "Body",
+            type: "rich-text",
+            isBody: true,
+          },
+        ],
+      },
     ],
   },
 });
