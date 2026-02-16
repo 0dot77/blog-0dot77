@@ -17,7 +17,7 @@ This blog serves as an archive for my personal sketches, experiments, and **tria
 **Imagine Your Heart**
 *Role: Mentor, Technical Director / Period: 2025.09 - 2026.01*
 
-LG 융합예술영재 멘토, Unity를 활용한 인터랙티브 영화 개발
+융합예술영재 멘토, Unity, Meta SDK를 활용한 인터랙티브 영화 개발
 
 - **Key Tech:** Unity, MetaSDK, Blender, AI
 
@@ -29,7 +29,7 @@ LG 융합예술영재 멘토, Unity를 활용한 인터랙티브 영화 개발
 **Harmonic Nostalgia**
 *Role: Technical Director / Period: 2025*
 
-박단비 작가 협업 미디어 아트 프로젝트, 기술 및 시스템 총괄
+박단비 작가 협업, VR 인터랙티브 작업 시스템 개발
 
 **Key Tech:** Unity, MetaSDK, VFXGraph
 
@@ -38,7 +38,7 @@ LG 융합예술영재 멘토, Unity를 활용한 인터랙티브 영화 개발
 **문문문 : MOONNOOWMOON**
 *Role: Technical Director / Period: 2025.02 - 2025.10*
 
-국립현대무용단 공연, 인터랙티브 무대 기술 및 시스템 구축
+국립현대무용단 협업 공연, HMD 다수 기기를 활용한 멀티플레이 공연 시스템 개발
 
 **Key Tech:** Unity, Multiplay, MetaSDK, VFXGraph
 
@@ -107,18 +107,18 @@ VRChat 산리오(Sanrio) 인터랙티브 월드 제작
 **TRPG:TRPG**
 *Role: Interactive Developer / Period: 2024*
 
-한국예술종합학교 아트콜라이더랩, 관객 참여형 로직 및 비주얼 개발
+한국예술종합학교 아트콜라이더랩, 관객 참여형 AI 활용 공연 시스템 개발
 
-**Key Tech:** Unity, Touchdesigner, StreamDiffusion AI
+**Key Tech:** Unity, Touchdesigner, StreamDiffusion AI, OSC
 
 ---
 
 **Bloom Bloom Bash!**
 *Role: Interactive Developer / Period: 2024*
 
-실시간 관객 상호작용 디지털 미디어 콘텐츠 개발
+교내 미디어월을 기반으로 한 관객 상호작용 인터랙티브 시스템 개발
 
-**Key Tech:** Touchdesigner, GLSL, Kinect
+**Key Tech:** Touchdesigner, GLSL, Azure Kinect, LED Wall
 
 ---
 
@@ -167,7 +167,7 @@ VRChat 산리오(Sanrio) 인터랙티브 월드 제작
 **재래악 = 종묘**
 *Role: Video Designer / Period: 2023*
 
-수림문화재단 공연, 미디어 파사드 영상 디자인 및 제작
+수림문화재단 공연, 오디오 인터랙티브 시스템 개발
 
 **Key Tech:** Touchdesigner
 
@@ -283,8 +283,8 @@ Ars Electronica 전시, Unity WebGL과 웹 기술 연동 하이브리드 콘텐�
 
 ### 👨🏼‍🏫 Lectures
 
-<!-- **Digital Media Visual 1-2 (BFA)**
-*Korea National University of Arts / 2026 -* -->
+**Digital Media Visual 1-2 (BFA)**
+*Korea National University of Arts / 2026 -*
 
 **Stage Design (BFA)**
 *Korea National University of Arts / 2025 -*
