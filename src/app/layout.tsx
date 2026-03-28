@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains",
@@ -10,17 +8,14 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: {
-    default: "0dot77 — Taeyang Yoo",
-    template: "%s | 0dot77",
-  },
+  title: "Taeyang Yoo — 0dot77",
   description:
-    "Media Artist & Developer & Explorer. Immersive experiences at the intersection of art and technology.",
+    "Media Artist, Developer, Technical Director. 교육과 프로토타이핑을 통해 기술의 경험을 설계합니다.",
   metadataBase: new URL("https://0dot77.com"),
   openGraph: {
-    title: "0dot77 — Taeyang Yoo",
+    title: "Taeyang Yoo — 0dot77",
     description:
-      "Media Artist & Developer & Explorer. Immersive experiences at the intersection of art and technology.",
+      "Media Artist, Developer, Technical Director. 교육과 프로토타이핑을 통해 기술의 경험을 설계합니다.",
     url: "https://0dot77.com",
     siteName: "0dot77",
     locale: "ko_KR",
@@ -44,9 +39,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${jetbrainsMono.variable} antialiased`}>
-        <Header />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
+        {children}
       </body>
     </html>
   );
