@@ -116,5 +116,6 @@ export async function uploadImage(
     throw new Error(`GitHub API error: ${res.status} ${err}`);
   }
 
-  return `/blog/images/${fileName}`;
+  // Return raw GitHub URL so the image is available immediately (before next deploy)
+  return `https://raw.githubusercontent.com/${repo}/main/${filePath}`;
 }
