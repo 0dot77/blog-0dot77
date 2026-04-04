@@ -5,7 +5,7 @@ import { buildMarkdown } from "@/lib/blog";
 import { createOrUpdateFile, deleteFile, getFileContent } from "@/lib/github";
 
 export async function GET(
-  _req: NextRequest,
+  req: NextRequest,
   { params }: { params: Promise<{ slug: string }> },
 ) {
   if (!(await verifyAuth())) {
@@ -13,7 +13,8 @@ export async function GET(
   }
 
   const { slug } = await params;
-  const raw = await getFileContent(`content/blog/${slug}.md`);
+  const lang = req.nextUrl.searchParams.get("lang") ?? "ko";
+  const raw = await getFileContent(`content/blog/${lang}/${slug}.md`);
   if (!raw) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
@@ -21,6 +22,7 @@ export async function GET(
   const { data, content } = matter(raw);
   return NextResponse.json({
     slug,
+    lang,
     title: data.title ?? slug,
     date: data.date ?? "",
     description: data.description ?? "",
@@ -37,14 +39,14 @@ export async function PUT(
   }
 
   const { slug } = await params;
-  const { frontmatter, content } = await req.json();
+  const { lang = "ko", frontmatter, content } = await req.json();
 
   const md = buildMarkdown(frontmatter, content);
 
   await createOrUpdateFile(
-    `content/blog/${slug}.md`,
+    `content/blog/${lang}/${slug}.md`,
     md,
-    `blog: update ${slug}`,
+    `blog: update ${lang}/${slug}`,
   );
 
   return NextResponse.json({ ok: true });
@@ -59,6 +61,7 @@ export async function DELETE(
   }
 
   const { slug } = await params;
-  await deleteFile(`content/blog/${slug}.md`, `blog: delete ${slug}`);
+  const lang = _req.nextUrl.searchParams.get("lang") ?? "ko";
+  await deleteFile(`content/blog/${lang}/${slug}.md`, `blog: delete ${lang}/${slug}`);
   return NextResponse.json({ ok: true });
 }

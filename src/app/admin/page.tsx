@@ -22,8 +22,11 @@ const markExtension: TokenizerExtension & RendererExtension = {
 
 marked.use({ extensions: [markExtension] });
 
+type Lang = "ko" | "en";
+
 interface PostMeta {
   slug: string;
+  lang: Lang;
   title: string;
   date: string;
   description: string;
@@ -38,6 +41,7 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
 
   // Editor state
+  const [lang, setLang] = useState<Lang>("ko");
   const [slug, setSlug] = useState("");
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
@@ -68,6 +72,7 @@ export default function AdminPage() {
   }, [fetchPosts]);
 
   function resetEditor() {
+    setLang("ko");
     setSlug("");
     setTitle("");
     setDate(new Date().toISOString().slice(0, 10));
@@ -82,10 +87,11 @@ export default function AdminPage() {
     setView("editor");
   }
 
-  async function handleEdit(postSlug: string) {
-    const res = await fetch(`/api/admin/posts/${postSlug}`);
+  async function handleEdit(postSlug: string, postLang: Lang) {
+    const res = await fetch(`/api/admin/posts/${postSlug}?lang=${postLang}`);
     if (!res.ok) return;
     const post = await res.json();
+    setLang(postLang);
     setSlug(post.slug);
     setTitle(post.title);
     setDate(post.date);
@@ -95,9 +101,9 @@ export default function AdminPage() {
     setView("editor");
   }
 
-  async function handleDelete(postSlug: string) {
-    if (!confirm(`"${postSlug}" 글을 삭제할까요?`)) return;
-    await fetch(`/api/admin/posts/${postSlug}`, { method: "DELETE" });
+  async function handleDelete(postSlug: string, postLang: Lang) {
+    if (!confirm(`"${postSlug}" (${postLang}) 글을 삭제할까요?`)) return;
+    await fetch(`/api/admin/posts/${postSlug}?lang=${postLang}`, { method: "DELETE" });
     fetchPosts();
   }
 
@@ -115,6 +121,7 @@ export default function AdminPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           slug,
+          lang,
           frontmatter: { title, date, description },
           content,
         }),
@@ -226,6 +233,20 @@ export default function AdminPage() {
         )}
 
         <div className="space-y-4 mb-6">
+          <div className="flex gap-1 font-(family-name:--font-mono) text-xs border border-border rounded-lg overflow-hidden w-fit">
+            <button
+              onClick={() => setLang("ko")}
+              className={`px-3 py-1.5 transition-colors ${lang === "ko" ? "bg-teal/20 text-teal" : "text-text-secondary hover:text-text"}`}
+            >
+              KR
+            </button>
+            <button
+              onClick={() => setLang("en")}
+              className={`px-3 py-1.5 transition-colors ${lang === "en" ? "bg-teal/20 text-teal" : "text-text-secondary hover:text-text"}`}
+            >
+              EN
+            </button>
+          </div>
           <input
             type="text"
             value={title}
@@ -306,24 +327,29 @@ export default function AdminPage() {
         <div className="space-y-4">
           {posts.map((post) => (
             <div
-              key={post.slug}
+              key={`${post.lang}-${post.slug}`}
               className="flex items-center justify-between border border-border rounded-lg px-4 py-3"
             >
               <div>
-                <p className="text-sm font-medium text-text">{post.title}</p>
+                <div className="flex items-center gap-2">
+                  <span className="font-(family-name:--font-mono) text-[10px] px-1.5 py-0.5 rounded border border-border text-text-secondary">
+                    {post.lang === "ko" ? "KR" : "EN"}
+                  </span>
+                  <p className="text-sm font-medium text-text">{post.title}</p>
+                </div>
                 <p className="font-(family-name:--font-mono) text-xs text-border mt-0.5">
                   {post.date} &middot; {post.slug}
                 </p>
               </div>
               <div className="flex gap-2">
                 <button
-                  onClick={() => handleEdit(post.slug)}
+                  onClick={() => handleEdit(post.slug, post.lang)}
                   className="text-xs text-text-secondary hover:text-teal transition-colors"
                 >
                   Edit
                 </button>
                 <button
-                  onClick={() => handleDelete(post.slug)}
+                  onClick={() => handleDelete(post.slug, post.lang)}
                   className="text-xs text-text-secondary hover:text-red-400 transition-colors"
                 >
                   Delete

@@ -41,8 +41,14 @@ export default function RootLayout({
         <link
           rel="alternate"
           type="application/rss+xml"
-          title="0dot77 Blog"
-          href="/feed.xml"
+          title="0dot77 Blog (KR)"
+          href="/feed/ko"
+        />
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="0dot77 Blog (EN)"
+          href="/feed/en"
         />
       </head>
       <body className={`${jetbrainsMono.variable} antialiased`}>

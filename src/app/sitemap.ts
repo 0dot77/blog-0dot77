@@ -1,23 +1,29 @@
 import type { MetadataRoute } from "next";
-import { getAllPosts } from "@/lib/blog";
+import { getAllPosts, type Lang } from "@/lib/blog";
+
+const LANGS: Lang[] = ["ko", "en"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const posts = getAllPosts();
-
-  const blogEntries = posts.map((post) => ({
-    url: `https://0dot77.com/blog/${post.slug}`,
-    lastModified: post.date,
-  }));
-
-  return [
+  const entries: MetadataRoute.Sitemap = [
     {
       url: "https://0dot77.com",
       lastModified: new Date().toISOString(),
     },
     {
       url: "https://0dot77.com/blog",
-      lastModified: posts[0]?.date ?? new Date().toISOString(),
+      lastModified: new Date().toISOString(),
     },
-    ...blogEntries,
   ];
+
+  for (const lang of LANGS) {
+    const posts = getAllPosts(lang);
+    for (const post of posts) {
+      entries.push({
+        url: `https://0dot77.com/blog/${lang}/${post.slug}`,
+        lastModified: post.date,
+      });
+    }
+  }
+
+  return entries;
 }

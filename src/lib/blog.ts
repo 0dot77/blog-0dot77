@@ -21,10 +21,15 @@ const sanitizeSchema = {
   },
 };
 
-const BLOG_DIR = path.join(process.cwd(), "content/blog");
+export type Lang = "ko" | "en";
+
+function blogDir(lang: Lang = "ko") {
+  return path.join(process.cwd(), "content/blog", lang);
+}
 
 export interface PostMeta {
   slug: string;
+  lang: Lang;
   title: string;
   date: string;
   description: string;
@@ -36,18 +41,20 @@ export interface Post extends PostMeta {
   html: string;    // rendered HTML
 }
 
-export function getAllPosts(): PostMeta[] {
-  if (!fs.existsSync(BLOG_DIR)) return [];
+export function getAllPosts(lang: Lang = "ko"): PostMeta[] {
+  const dir = blogDir(lang);
+  if (!fs.existsSync(dir)) return [];
 
-  const files = fs.readdirSync(BLOG_DIR).filter((f) => f.endsWith(".md"));
+  const files = fs.readdirSync(dir).filter((f) => f.endsWith(".md"));
 
   const posts = files.map((filename) => {
     const slug = filename.replace(/\.md$/, "");
-    const raw = fs.readFileSync(path.join(BLOG_DIR, filename), "utf-8");
+    const raw = fs.readFileSync(path.join(dir, filename), "utf-8");
     const { data } = matter(raw);
 
     return {
       slug,
+      lang,
       title: data.title ?? slug,
       date: data.date ?? "",
       description: data.description ?? "",
@@ -63,8 +70,8 @@ export function buildMarkdown(frontmatter: { title: string; date: string; descri
   return `---\ntitle: "${escape(frontmatter.title)}"\ndate: "${escape(frontmatter.date)}"\ndescription: "${escape(frontmatter.description)}"\n---\n\n${content}`;
 }
 
-export async function getPostBySlug(slug: string): Promise<Post | null> {
-  const filePath = path.join(BLOG_DIR, `${slug}.md`);
+export async function getPostBySlug(slug: string, lang: Lang = "ko"): Promise<Post | null> {
+  const filePath = path.join(blogDir(lang), `${slug}.md`);
   if (!fs.existsSync(filePath)) return null;
 
   const raw = fs.readFileSync(filePath, "utf-8");
@@ -82,6 +89,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 
   return {
     slug,
+    lang,
     title: data.title ?? slug,
     date: data.date ?? "",
     description: data.description ?? "",
