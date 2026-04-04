@@ -21,19 +21,27 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "File too large (max 20MB)" }, { status: 400 });
   }
 
-  const rawBuffer = Buffer.from(await file.arrayBuffer());
+  try {
+    const rawBuffer = Buffer.from(await file.arrayBuffer());
 
-  // Convert to WebP (quality 80 gives good balance of size and clarity)
-  const webpBuffer = await sharp(rawBuffer)
-    .webp({ quality: 80 })
-    .toBuffer();
+    // Convert to WebP (quality 80 gives good balance of size and clarity)
+    const webpBuffer = await sharp(rawBuffer)
+      .webp({ quality: 80 })
+      .toBuffer();
 
-  const base64 = webpBuffer.toString("base64");
-  const timestamp = Date.now();
-  const baseName = file.name.replace(/\.[^.]+$/, "").replace(/[^a-zA-Z0-9_-]/g, "_");
-  const fileName = `${timestamp}-${baseName}.webp`;
+    const base64 = webpBuffer.toString("base64");
+    const timestamp = Date.now();
+    const baseName = file.name.replace(/\.[^.]+$/, "").replace(/[^a-zA-Z0-9_-]/g, "_");
+    const fileName = `${timestamp}-${baseName}.webp`;
 
-  const url = await uploadImage(fileName, base64, `blog: upload ${fileName}`);
+    const url = await uploadImage(fileName, base64, `blog: upload ${fileName}`);
 
-  return NextResponse.json({ url });
+    return NextResponse.json({ url });
+  } catch (err) {
+    console.error("Upload error:", err);
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : "이미지 처리 중 오류 발생" },
+      { status: 500 },
+    );
+  }
 }
