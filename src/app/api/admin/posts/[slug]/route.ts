@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyAuth } from "@/lib/auth";
-import { getPostBySlug } from "@/lib/blog";
+import { getPostBySlug, buildMarkdown } from "@/lib/blog";
 import { createOrUpdateFile, deleteFile } from "@/lib/github";
 
 export async function GET(
@@ -31,7 +31,7 @@ export async function PUT(
   const { slug } = await params;
   const { frontmatter, content } = await req.json();
 
-  const md = `---\ntitle: "${frontmatter.title}"\ndate: "${frontmatter.date}"\ndescription: "${frontmatter.description}"\n---\n\n${content}`;
+  const md = buildMarkdown(frontmatter, content);
 
   await createOrUpdateFile(
     `content/blog/${slug}.md`,

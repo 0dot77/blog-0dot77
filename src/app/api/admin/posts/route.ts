@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyAuth } from "@/lib/auth";
-import { getAllPosts } from "@/lib/blog";
+import { getAllPosts, buildMarkdown } from "@/lib/blog";
 import { createOrUpdateFile } from "@/lib/github";
 
 export async function GET() {
@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "slug and content are required" }, { status: 400 });
   }
 
-  const md = `---\ntitle: "${frontmatter.title}"\ndate: "${frontmatter.date}"\ndescription: "${frontmatter.description}"\n---\n\n${content}`;
+  const md = buildMarkdown(frontmatter, content);
 
   await createOrUpdateFile(
     `content/blog/${slug}.md`,

@@ -23,6 +23,7 @@ export function GET() {
     <link>${siteUrl}/blog</link>
     <description>Taeyang Yoo — Media Artist, Developer, Technical Director</description>
     <language>ko</language>
+    <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <atom:link href="${siteUrl}/feed.xml" rel="self" type="application/rss+xml"/>
 ${items}
   </channel>

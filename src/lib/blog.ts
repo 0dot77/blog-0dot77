@@ -5,6 +5,7 @@ import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
 import rehypeStringify from "rehype-stringify";
 
 const BLOG_DIR = path.join(process.cwd(), "content/blog");
@@ -44,6 +45,11 @@ export function getAllPosts(): PostMeta[] {
   return posts.sort((a, b) => (a.date > b.date ? -1 : 1));
 }
 
+export function buildMarkdown(frontmatter: { title: string; date: string; description: string }, content: string): string {
+  const escape = (s: string) => s.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+  return `---\ntitle: "${escape(frontmatter.title)}"\ndate: "${escape(frontmatter.date)}"\ndescription: "${escape(frontmatter.description)}"\n---\n\n${content}`;
+}
+
 export async function getPostBySlug(slug: string): Promise<Post | null> {
   const filePath = path.join(BLOG_DIR, `${slug}.md`);
   if (!fs.existsSync(filePath)) return null;
@@ -55,6 +61,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     .use(remarkParse)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeRaw)
+    .use(rehypeSanitize)
     .use(rehypeStringify)
     .process(content);
 
