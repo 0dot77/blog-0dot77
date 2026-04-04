@@ -86,9 +86,17 @@ export default function Home() {
     <div className="max-w-2xl mx-auto px-6 py-20 md:py-32">
       {/* Hero */}
       <header className="mb-20">
-        <h1 className="font-(family-name:--font-mono) text-3xl md:text-4xl font-bold text-text mb-3">
-          Taeyang Yoo
-        </h1>
+        <div className="flex items-baseline justify-between">
+          <h1 className="font-(family-name:--font-mono) text-3xl md:text-4xl font-bold text-text mb-3 select-none">
+            Taeyang Yoo
+          </h1>
+          <Link
+            href="/blog"
+            className="font-(family-name:--font-mono) text-sm text-text-secondary hover:text-teal transition-colors"
+          >
+            blog &rarr;
+          </Link>
+        </div>
         <p className="font-(family-name:--font-mono) text-sm text-green mb-6 leading-relaxed">
           I make tools for artists. I make art with tools.
         </p>

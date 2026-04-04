@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
+import AsciiDolphin from "@/components/AsciiDolphin";
 import "./globals.css";
 
 const jetbrainsMono = JetBrains_Mono({
@@ -37,9 +38,16 @@ export default function RootLayout({
           crossOrigin="anonymous"
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
         />
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="0dot77 Blog"
+          href="/feed.xml"
+        />
       </head>
       <body className={`${jetbrainsMono.variable} antialiased`}>
         {children}
+        <AsciiDolphin />
       </body>
     </html>
   );
