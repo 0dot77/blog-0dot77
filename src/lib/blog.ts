@@ -5,8 +5,21 @@ import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import rehypeRaw from "rehype-raw";
-import rehypeSanitize from "rehype-sanitize";
+import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
 import rehypeStringify from "rehype-stringify";
+import remarkMark from "./remark-mark";
+import remarkLinkCard from "./remark-link-card";
+
+const sanitizeSchema = {
+  ...defaultSchema,
+  tagNames: [...(defaultSchema.tagNames ?? []), "mark"],
+  attributes: {
+    ...defaultSchema.attributes,
+    a: [...(defaultSchema.attributes?.a ?? []), "className", "target", "rel"],
+    img: [...(defaultSchema.attributes?.img ?? []), "className"],
+    span: [...(defaultSchema.attributes?.span ?? []), "className"],
+  },
+};
 
 const BLOG_DIR = path.join(process.cwd(), "content/blog");
 
@@ -59,9 +72,11 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 
   const result = await unified()
     .use(remarkParse)
+    .use(remarkMark)
+    .use(remarkLinkCard)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeRaw)
-    .use(rehypeSanitize)
+    .use(rehypeSanitize, sanitizeSchema)
     .use(rehypeStringify)
     .process(content);
 

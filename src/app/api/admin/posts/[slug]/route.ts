@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import matter from "gray-matter";
 import { verifyAuth } from "@/lib/auth";
-import { getPostBySlug, buildMarkdown } from "@/lib/blog";
-import { createOrUpdateFile, deleteFile } from "@/lib/github";
+import { buildMarkdown } from "@/lib/blog";
+import { createOrUpdateFile, deleteFile, getFileContent } from "@/lib/github";
 
 export async function GET(
   _req: NextRequest,
@@ -12,12 +13,19 @@ export async function GET(
   }
 
   const { slug } = await params;
-  const post = await getPostBySlug(slug);
-  if (!post) {
+  const raw = await getFileContent(`content/blog/${slug}.md`);
+  if (!raw) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  return NextResponse.json(post);
+  const { data, content } = matter(raw);
+  return NextResponse.json({
+    slug,
+    title: data.title ?? slug,
+    date: data.date ?? "",
+    description: data.description ?? "",
+    content,
+  });
 }
 
 export async function PUT(

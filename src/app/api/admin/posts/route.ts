@@ -1,13 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
+import matter from "gray-matter";
 import { verifyAuth } from "@/lib/auth";
-import { getAllPosts, buildMarkdown } from "@/lib/blog";
-import { createOrUpdateFile } from "@/lib/github";
+import { buildMarkdown } from "@/lib/blog";
+import { createOrUpdateFile, listFiles, getFileContent } from "@/lib/github";
 
 export async function GET() {
   if (!(await verifyAuth())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const posts = getAllPosts();
+
+  const files = await listFiles("content/blog");
+  const mdFiles = files.filter((f) => f.name.endsWith(".md"));
+
+  const posts = await Promise.all(
+    mdFiles.map(async (f) => {
+      const raw = await getFileContent(f.path);
+      const slug = f.name.replace(/\.md$/, "");
+      if (!raw) return { slug, title: slug, date: "", description: "" };
+      const { data } = matter(raw);
+      return {
+        slug,
+        title: data.title ?? slug,
+        date: data.date ?? "",
+        description: data.description ?? "",
+      };
+    }),
+  );
+
+  posts.sort((a, b) => (a.date > b.date ? -1 : 1));
   return NextResponse.json(posts);
 }
 

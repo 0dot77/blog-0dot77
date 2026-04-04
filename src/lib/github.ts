@@ -68,6 +68,29 @@ export async function deleteFile(filePath: string, message: string): Promise<voi
   }
 }
 
+export async function listFiles(dirPath: string): Promise<{ name: string; path: string }[]> {
+  const { repo } = getConfig();
+  const res = await fetch(`${GITHUB_API}/repos/${repo}/contents/${dirPath}`, {
+    headers: headers(),
+  });
+  if (!res.ok) return [];
+  const data = await res.json();
+  if (!Array.isArray(data)) return [];
+  return data
+    .filter((f: { type: string; name: string }) => f.type === "file")
+    .map((f: { name: string; path: string }) => ({ name: f.name, path: f.path }));
+}
+
+export async function getFileContent(filePath: string): Promise<string | null> {
+  const { repo } = getConfig();
+  const res = await fetch(`${GITHUB_API}/repos/${repo}/contents/${filePath}`, {
+    headers: headers(),
+  });
+  if (!res.ok) return null;
+  const data = await res.json();
+  return Buffer.from(data.content, "base64").toString("utf-8");
+}
+
 export async function uploadImage(
   fileName: string,
   base64Data: string,

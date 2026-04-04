@@ -3,7 +3,24 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { marked } from "marked";
+import { marked, type TokenizerExtension, type RendererExtension } from "marked";
+
+const markExtension: TokenizerExtension & RendererExtension = {
+  name: "mark",
+  level: "inline",
+  start(src: string) { return src.indexOf("=="); },
+  tokenizer(src: string) {
+    const match = src.match(/^==(.+?)==/);
+    if (match) {
+      return { type: "mark", raw: match[0], text: match[1] };
+    }
+  },
+  renderer(token) {
+    return `<mark>${token.text}</mark>`;
+  },
+};
+
+marked.use({ extensions: [markExtension] });
 
 interface PostMeta {
   slug: string;
@@ -28,6 +45,7 @@ export default function AdminPage() {
   const [content, setContent] = useState("");
   const [isEdit, setIsEdit] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const previewHtml = useMemo(() => {
@@ -56,6 +74,7 @@ export default function AdminPage() {
     setDescription("");
     setContent("");
     setIsEdit(false);
+    setError("");
   }
 
   function handleNew() {
@@ -85,19 +104,33 @@ export default function AdminPage() {
   async function handleSave() {
     if (!slug || !title) return;
     setSaving(true);
+    setError("");
 
     const method = isEdit ? "PUT" : "POST";
     const url = isEdit ? `/api/admin/posts/${slug}` : "/api/admin/posts";
 
-    await fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        slug,
-        frontmatter: { title, date, description },
-        content,
-      }),
-    });
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          slug,
+          frontmatter: { title, date, description },
+          content,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error || `저장 실패 (${res.status})`);
+        setSaving(false);
+        return;
+      }
+    } catch {
+      setError("네트워크 오류가 발생했습니다.");
+      setSaving(false);
+      return;
+    }
 
     setSaving(false);
     setView("list");
@@ -105,25 +138,39 @@ export default function AdminPage() {
   }
 
   async function handleImageUpload(file: File) {
+    const placeholder = `![업로드 중... ${file.name}]()`;
+    const textarea = textareaRef.current;
+    const cursorPos = textarea?.selectionStart ?? 0;
+
+    // Insert placeholder at cursor
+    setContent((prev) => {
+      const before = prev.slice(0, cursorPos);
+      const after = prev.slice(cursorPos);
+      return before + placeholder + after;
+    });
+
     const formData = new FormData();
     formData.append("file", file);
 
-    const res = await fetch("/api/admin/upload", {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: formData,
+      });
 
-    if (!res.ok) return;
-    const { url } = await res.json();
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error || "이미지 업로드 실패");
+        setContent((prev) => prev.replace(placeholder, ""));
+        return;
+      }
 
-    // Insert markdown image at cursor
-    const textarea = textareaRef.current;
-    if (textarea) {
-      const start = textarea.selectionStart;
-      const before = content.slice(0, start);
-      const after = content.slice(start);
+      const { url } = await res.json();
       const img = `![${file.name}](${url})`;
-      setContent(before + img + after);
+      setContent((prev) => prev.replace(placeholder, img));
+    } catch {
+      setError("이미지 업로드 중 네트워크 오류");
+      setContent((prev) => prev.replace(placeholder, ""));
     }
   }
 
@@ -171,6 +218,12 @@ export default function AdminPage() {
             {saving ? "Saving..." : "Save & Deploy"}
           </button>
         </div>
+
+        {error && (
+          <div className="mb-4 rounded-lg border border-red-400/30 bg-red-400/10 px-4 py-2 text-sm text-red-400 font-(family-name:--font-mono)">
+            {error}
+          </div>
+        )}
 
         <div className="space-y-4 mb-6">
           <input
