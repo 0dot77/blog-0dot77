@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { generateToken, storeToken, TOKEN_COOKIE, TOKEN_MAX_AGE } from "@/lib/auth";
+import { generateToken, TOKEN_COOKIE, TOKEN_MAX_AGE } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
   const { password } = await req.json();
@@ -9,7 +9,6 @@ export async function POST(req: NextRequest) {
   }
 
   const token = generateToken();
-  storeToken(token);
 
   const res = NextResponse.json({ ok: true });
   res.cookies.set(TOKEN_COOKIE, token, {
