@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllPosts, getPostBySlug, type Lang } from "@/lib/blog";
+import Giscus from "@/components/Giscus";
 
 const LANGS: Lang[] = ["ko", "en"];
 
@@ -86,6 +87,10 @@ export default async function BlogPostPage({
         className="prose"
         dangerouslySetInnerHTML={{ __html: post.html }}
       />
+
+      <section className="mt-20 pt-10 border-t border-border">
+        <Giscus lang={lang as "ko" | "en"} />
+      </section>
     </div>
   );
 }
