@@ -23,6 +23,35 @@ function generateId(): string {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 }
 
+export async function fetchOgMeta(url: string): Promise<{ title: string | null; image: string | null }> {
+  try {
+    const res = await fetch(url, {
+      headers: { "User-Agent": "bot" },
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!res.ok) return { title: null, image: null };
+    const html = await res.text();
+
+    const og = (name: string) => {
+      const m =
+        html.match(
+          new RegExp(`<meta[^>]+property=["']og:${name}["'][^>]+content=["']([^"']+)["']`, "i"),
+        ) ??
+        html.match(
+          new RegExp(`<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:${name}["']`, "i"),
+        );
+      return m?.[1] ?? null;
+    };
+
+    const title = og("title") ?? html.match(/<title[^>]*>([^<]+)<\/title>/i)?.[1] ?? null;
+    const image = og("image");
+
+    return { title, image };
+  } catch {
+    return { title: null, image: null };
+  }
+}
+
 export async function getAllItems(): Promise<CollectionItem[]> {
   try {
     const raw = await getFileContent(COLLECTION_PATH);

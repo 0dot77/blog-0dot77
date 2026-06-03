@@ -263,7 +263,7 @@ export default function AdminPage() {
   }
 
   async function handleCollectionSave() {
-    if (!colTitle || !colUrl) return;
+    if (!colUrl) return;
     setColSaving(true);
     setCollectionError("");
 
@@ -461,7 +461,7 @@ export default function AdminPage() {
             </button>
             <button
               onClick={handleCollectionSave}
-              disabled={colSaving || !colTitle || !colUrl}
+              disabled={colSaving || !colUrl}
               className="bg-teal/10 border border-teal/30 text-teal rounded-lg px-4 py-2 text-sm font-(family-name:--font-mono) hover:bg-teal/20 transition-colors disabled:opacity-40"
             >
               {colSaving ? "Saving..." : editId ? "Save" : "Add"}
@@ -486,7 +486,7 @@ export default function AdminPage() {
               type="text"
               value={colTitle}
               onChange={(e) => setColTitle(e.target.value)}
-              placeholder="Title"
+              placeholder="Title (auto-fetched if empty)"
               className="w-full bg-surface border border-border rounded-lg px-4 py-2.5 text-text text-lg font-medium placeholder:text-text-secondary focus:outline-none focus:border-teal"
             />
             <input
@@ -507,7 +507,7 @@ export default function AdminPage() {
               type="url"
               value={colThumbnail}
               onChange={(e) => setColThumbnail(e.target.value)}
-              placeholder="Thumbnail image URL (optional)"
+              placeholder="Thumbnail image URL (auto-fetched if empty)"
               className="w-full bg-surface border border-border rounded-lg px-4 py-2 text-sm text-text font-(family-name:--font-mono) placeholder:text-text-secondary focus:outline-none focus:border-teal"
             />
           </div>

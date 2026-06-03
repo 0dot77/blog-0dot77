@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyAuth } from "@/lib/auth";
-import { getAllItems, addItem } from "@/lib/collection";
+import { getAllItems, addItem, fetchOgMeta } from "@/lib/collection";
 
 export async function GET() {
   if (!(await verifyAuth())) {
@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json();
-  const { title, url, description, tags, thumbnail } = body;
+  let { title, url, description, tags, thumbnail } = body;
 
   if (!title || !url) {
     return NextResponse.json(
@@ -25,8 +25,15 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // Auto-fetch OG metadata if fields are empty
+  if (!thumbnail || !title || title === url) {
+    const og = await fetchOgMeta(url);
+    if (!thumbnail && og.image) thumbnail = og.image;
+    if ((!title || title === url) && og.title) title = og.title;
+  }
+
   const item = await addItem({
-    title,
+    title: title || url,
     url,
     description: description ?? "",
     tags: Array.isArray(tags) ? tags : [],
