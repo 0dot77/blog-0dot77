@@ -7,6 +7,7 @@ export interface CollectionItem {
   title: string;
   url: string;
   description: string;
+  thumbnail?: string;
   tags: string[];
   platform: "instagram" | "x" | "other";
   date: string;

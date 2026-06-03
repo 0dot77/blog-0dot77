@@ -41,6 +41,7 @@ interface CollectionItem {
   title: string;
   url: string;
   description: string;
+  thumbnail?: string;
   tags: string[];
   platform: string;
   date: string;
@@ -61,6 +62,7 @@ export default function AdminPage() {
   const [colUrl, setColUrl] = useState("");
   const [colDesc, setColDesc] = useState("");
   const [colTags, setColTags] = useState("");
+  const [colThumbnail, setColThumbnail] = useState("");
   const [colSaving, setColSaving] = useState(false);
   const [collectionError, setCollectionError] = useState("");
 
@@ -241,6 +243,7 @@ export default function AdminPage() {
     setColUrl("");
     setColDesc("");
     setColTags("");
+    setColThumbnail("");
     setCollectionError("");
   }
 
@@ -255,6 +258,7 @@ export default function AdminPage() {
     setColUrl(item.url);
     setColDesc(item.description);
     setColTags(item.tags.join(", "));
+    setColThumbnail(item.thumbnail ?? "");
     setCollectionView("edit");
   }
 
@@ -264,7 +268,8 @@ export default function AdminPage() {
     setCollectionError("");
 
     const tags = colTags.split(",").map((t) => t.trim()).filter(Boolean);
-    const body = { title: colTitle.trim(), url: colUrl.trim(), description: colDesc.trim(), tags };
+    const thumbnail = colThumbnail.trim() || undefined;
+    const body = { title: colTitle.trim(), url: colUrl.trim(), description: colDesc.trim(), tags, thumbnail };
 
     try {
       const method = editId ? "PUT" : "POST";
@@ -496,6 +501,13 @@ export default function AdminPage() {
               value={colTags}
               onChange={(e) => setColTags(e.target.value)}
               placeholder="Tags (comma separated)"
+              className="w-full bg-surface border border-border rounded-lg px-4 py-2 text-sm text-text font-(family-name:--font-mono) placeholder:text-text-secondary focus:outline-none focus:border-teal"
+            />
+            <input
+              type="url"
+              value={colThumbnail}
+              onChange={(e) => setColThumbnail(e.target.value)}
+              placeholder="Thumbnail image URL (optional)"
               className="w-full bg-surface border border-border rounded-lg px-4 py-2 text-sm text-text font-(family-name:--font-mono) placeholder:text-text-secondary focus:outline-none focus:border-teal"
             />
           </div>
