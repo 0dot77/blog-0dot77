@@ -42,6 +42,7 @@ export async function addItem(
     title: item.title,
     url: item.url,
     description: item.description,
+    thumbnail: item.thumbnail,
     tags: item.tags,
     platform: detectPlatform(item.url),
     date: new Date().toISOString().slice(0, 10),

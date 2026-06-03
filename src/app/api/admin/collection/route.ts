@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json();
-  const { title, url, description, tags } = body;
+  const { title, url, description, tags, thumbnail } = body;
 
   if (!title || !url) {
     return NextResponse.json(
@@ -30,6 +30,7 @@ export async function POST(req: NextRequest) {
     url,
     description: description ?? "",
     tags: Array.isArray(tags) ? tags : [],
+    thumbnail: thumbnail || undefined,
   });
 
   return NextResponse.json(item, { status: 201 });
