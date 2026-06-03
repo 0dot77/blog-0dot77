@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyAuth } from "@/lib/auth";
-import { getAllItems, addItem, fetchOgMeta } from "@/lib/collection";
+import { getAllItems, addItem, fetchOgMeta, detectPlatform } from "@/lib/collection";
 
 export async function GET() {
   if (!(await verifyAuth())) {
@@ -22,11 +22,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "url is required" }, { status: 400 });
   }
 
-  // Auto-fetch OG metadata for empty fields
-  const og = await fetchOgMeta(url);
-  if (!title && og.title) title = og.title;
-  if (!description && og.description) description = og.description;
-  if (!thumbnail && og.image) thumbnail = og.image;
+  // Auto-fetch OG metadata (Instagram SPA returns no meta, skip it)
+  if (detectPlatform(url) !== "instagram") {
+    const og = await fetchOgMeta(url);
+    if (!title && og.title) title = og.title;
+    if (!description && og.description) description = og.description;
+    if (!thumbnail && og.image) thumbnail = og.image;
+  }
 
   const item = await addItem({
     title: title || url,

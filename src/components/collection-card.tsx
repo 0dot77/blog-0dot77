@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { CollectionItem } from "@/lib/collection";
+import { InstagramEmbed } from "./instagram-embed";
 
 const platformLabels: Record<CollectionItem["platform"], string> = {
   instagram: "Instagram",
@@ -17,8 +18,47 @@ const platformStyles: Record<CollectionItem["platform"], string> = {
 
 export default function CollectionCard({ item }: { item: CollectionItem }) {
   const [imgError, setImgError] = useState(false);
-
   const showImage = item.thumbnail && !imgError;
+
+  if (item.platform === "instagram") {
+    return (
+      <div className="bg-surface border border-border rounded-lg overflow-hidden hover:border-teal/30 transition-colors">
+        <InstagramEmbed url={item.url} />
+        <div className="p-4">
+          <div className="flex items-center justify-between gap-2 mb-2">
+            <span
+              className={`inline-block font-(family-name:--font-mono) text-[10px] px-1.5 py-0.5 rounded border ${platformStyles.instagram}`}
+            >
+              Instagram
+            </span>
+            <span className="font-(family-name:--font-mono) text-[10px] text-border shrink-0">
+              {item.date}
+            </span>
+          </div>
+          <h2 className="text-sm font-medium text-text mb-1">
+            {item.title}
+          </h2>
+          {item.description && (
+            <p className="text-xs text-text-secondary leading-relaxed mb-2">
+              {item.description}
+            </p>
+          )}
+          {item.tags.length > 0 && (
+            <div className="flex flex-wrap gap-1">
+              {item.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="font-(family-name:--font-mono) text-[10px] text-text-secondary bg-bg px-1.5 py-0.5 rounded"
+                >
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <a

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyAuth } from "@/lib/auth";
-import { updateItem, deleteItem, fetchOgMeta } from "@/lib/collection";
+import { updateItem, deleteItem, fetchOgMeta, detectPlatform } from "@/lib/collection";
 
 export async function PUT(
   req: NextRequest,
@@ -13,9 +13,8 @@ export async function PUT(
   const { id } = await params;
   const body = await req.json();
 
-  // Auto-fetch OG metadata if url changed and fields are empty
   let { url, title, description, thumbnail } = body;
-  if (url && (!title || !description || !thumbnail)) {
+  if (url && detectPlatform(url) !== "instagram" && (!title || !description || !thumbnail)) {
     const og = await fetchOgMeta(url);
     if (!title && og.title) title = og.title;
     if (!description && og.description) description = og.description;
