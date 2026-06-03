@@ -2,6 +2,8 @@ import Link from "next/link";
 import { getAllItems, type CollectionItem } from "@/lib/collection";
 import type { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Collection — 0dot77",
   description: "Media tech tools and resources curated by Taeyang Yoo",
