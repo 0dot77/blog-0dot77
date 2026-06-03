@@ -18,19 +18,15 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   let { title, url, description, tags, thumbnail } = body;
 
-  if (!title || !url) {
-    return NextResponse.json(
-      { error: "title and url are required" },
-      { status: 400 },
-    );
+  if (!url) {
+    return NextResponse.json({ error: "url is required" }, { status: 400 });
   }
 
-  // Auto-fetch OG metadata if fields are empty
-  if (!thumbnail || !title || title === url) {
-    const og = await fetchOgMeta(url);
-    if (!thumbnail && og.image) thumbnail = og.image;
-    if ((!title || title === url) && og.title) title = og.title;
-  }
+  // Auto-fetch OG metadata for empty fields
+  const og = await fetchOgMeta(url);
+  if (!title && og.title) title = og.title;
+  if (!description && og.description) description = og.description;
+  if (!thumbnail && og.image) thumbnail = og.image;
 
   const item = await addItem({
     title: title || url,

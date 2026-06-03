@@ -493,7 +493,7 @@ export default function AdminPage() {
               type="text"
               value={colDesc}
               onChange={(e) => setColDesc(e.target.value)}
-              placeholder="Short description"
+              placeholder="Short description (auto-fetched if empty)"
               className="w-full bg-surface border border-border rounded-lg px-4 py-2 text-sm text-text placeholder:text-text-secondary focus:outline-none focus:border-teal"
             />
             <input

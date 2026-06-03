@@ -13,15 +13,21 @@ export async function PUT(
   const { id } = await params;
   const body = await req.json();
 
-  // Auto-fetch OG metadata if url is provided but title/thumbnail are empty
-  let { url, title, thumbnail } = body;
-  if (url && (!thumbnail || !title)) {
+  // Auto-fetch OG metadata if url changed and fields are empty
+  let { url, title, description, thumbnail } = body;
+  if (url && (!title || !description || !thumbnail)) {
     const og = await fetchOgMeta(url);
-    if (!thumbnail && og.image) thumbnail = og.image;
     if (!title && og.title) title = og.title;
+    if (!description && og.description) description = og.description;
+    if (!thumbnail && og.image) thumbnail = og.image;
   }
 
-  const item = await updateItem(id, { ...body, thumbnail: thumbnail || undefined, title: title || undefined });
+  const item = await updateItem(id, {
+    ...body,
+    title: title || undefined,
+    description: description || undefined,
+    thumbnail: thumbnail || undefined,
+  });
   if (!item) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
