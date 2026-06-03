@@ -33,12 +33,36 @@ interface PostMeta {
 }
 
 type View = "list" | "editor";
+type Section = "posts" | "collection";
+type CollectionEditor = "list" | "add" | "edit";
+
+interface CollectionItem {
+  id: string;
+  title: string;
+  url: string;
+  description: string;
+  tags: string[];
+  platform: string;
+  date: string;
+}
 
 export default function AdminPage() {
   const router = useRouter();
+  const [section, setSection] = useState<Section>("posts");
   const [view, setView] = useState<View>("list");
   const [posts, setPosts] = useState<PostMeta[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const [collections, setCollections] = useState<CollectionItem[]>([]);
+  const [collectionLoading, setCollectionLoading] = useState(false);
+  const [collectionView, setCollectionView] = useState<CollectionEditor>("list");
+  const [editId, setEditId] = useState("");
+  const [colTitle, setColTitle] = useState("");
+  const [colUrl, setColUrl] = useState("");
+  const [colDesc, setColDesc] = useState("");
+  const [colTags, setColTags] = useState("");
+  const [colSaving, setColSaving] = useState(false);
+  const [collectionError, setCollectionError] = useState("");
 
   // Editor state
   const [lang, setLang] = useState<Lang>("ko");
@@ -199,6 +223,67 @@ export default function AdminPage() {
     }
   }
 
+  async function fetchCollections() {
+    setCollectionLoading(true);
+    const res = await fetch("/api/admin/collection");
+    if (res.status === 401) { router.push("/admin/login"); return; }
+    try { setCollections(await res.json()); } catch { /* */ }
+    setCollectionLoading(false);
+  }
+
+  useEffect(() => {
+    if (section === "collection") fetchCollections();
+  }, [section]);
+
+  function resetCollectionForm() {
+    setEditId("");
+    setColTitle("");
+    setColUrl("");
+    setColDesc("");
+    setColTags("");
+    setCollectionError("");
+  }
+
+  function handleCollectionNew() {
+    resetCollectionForm();
+    setCollectionView("add");
+  }
+
+  function handleCollectionEdit(item: CollectionItem) {
+    setEditId(item.id);
+    setColTitle(item.title);
+    setColUrl(item.url);
+    setColDesc(item.description);
+    setColTags(item.tags.join(", "));
+    setCollectionView("edit");
+  }
+
+  async function handleCollectionSave() {
+    if (!colTitle || !colUrl) return;
+    setColSaving(true);
+    setCollectionError("");
+
+    const tags = colTags.split(",").map((t) => t.trim()).filter(Boolean);
+    const body = { title: colTitle.trim(), url: colUrl.trim(), description: colDesc.trim(), tags };
+
+    try {
+      const method = editId ? "PUT" : "POST";
+      const url = editId ? `/api/admin/collection/${editId}` : "/api/admin/collection";
+      const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      if (!res.ok) { const d = await res.json().catch(() => ({})); setCollectionError(d.error || `Failed (${res.status})`); setColSaving(false); return; }
+    } catch { setCollectionError("Network error"); setColSaving(false); return; }
+
+    setColSaving(false);
+    setCollectionView("list");
+    fetchCollections();
+  }
+
+  async function handleCollectionDelete(id: string, title: string) {
+    if (!confirm(`"${title}" 삭제?`)) return;
+    await fetch(`/api/admin/collection/${id}`, { method: "DELETE" });
+    fetchCollections();
+  }
+
   if (loading) {
     return (
       <div className="max-w-2xl mx-auto px-6 py-32">
@@ -207,158 +292,307 @@ export default function AdminPage() {
     );
   }
 
-  if (view === "editor") {
-    return (
-      <div className="max-w-[90rem] mx-auto px-6 py-20">
-        <div className="flex items-center justify-between mb-8">
-          <button
-            onClick={() => setView("list")}
-            className="font-(family-name:--font-mono) text-xs text-text-secondary hover:text-teal transition-colors"
-          >
-            &larr; Back
-          </button>
-          <button
-            onClick={handleSave}
-            disabled={saving || !slug || !title}
-            className="bg-teal/10 border border-teal/30 text-teal rounded-lg px-4 py-2 text-sm font-(family-name:--font-mono) hover:bg-teal/20 transition-colors disabled:opacity-40"
-          >
-            {saving ? "Saving..." : "Save & Deploy"}
-          </button>
-        </div>
-
-        {error && (
-          <div className="mb-4 rounded-lg border border-red-400/30 bg-red-400/10 px-4 py-2 text-sm text-red-400 font-(family-name:--font-mono)">
-            {error}
-          </div>
-        )}
-
-        <div className="space-y-4 mb-6">
-          <div className="flex gap-1 font-(family-name:--font-mono) text-xs border border-border rounded-lg overflow-hidden w-fit">
+  function renderPostsTab() {
+    if (view === "editor") {
+      return (
+        <div className="max-w-[90rem] mx-auto px-6 py-20">
+          <div className="flex items-center justify-between mb-8">
             <button
-              onClick={() => setLang("ko")}
-              className={`px-3 py-1.5 transition-colors ${lang === "ko" ? "bg-teal/20 text-teal" : "text-text-secondary hover:text-text"}`}
+              onClick={() => setView("list")}
+              className="font-(family-name:--font-mono) text-xs text-text-secondary hover:text-teal transition-colors"
             >
-              KR
+              &larr; Back
             </button>
             <button
-              onClick={() => setLang("en")}
-              className={`px-3 py-1.5 transition-colors ${lang === "en" ? "bg-teal/20 text-teal" : "text-text-secondary hover:text-text"}`}
+              onClick={handleSave}
+              disabled={saving || !slug || !title}
+              className="bg-teal/10 border border-teal/30 text-teal rounded-lg px-4 py-2 text-sm font-(family-name:--font-mono) hover:bg-teal/20 transition-colors disabled:opacity-40"
             >
-              EN
+              {saving ? "Saving..." : "Save & Deploy"}
             </button>
           </div>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Title"
-            className="w-full bg-surface border border-border rounded-lg px-4 py-2.5 text-text text-lg font-medium placeholder:text-text-secondary focus:outline-none focus:border-teal"
-          />
-          <div className="flex gap-3">
+
+          {error && (
+            <div className="mb-4 rounded-lg border border-red-400/30 bg-red-400/10 px-4 py-2 text-sm text-red-400 font-(family-name:--font-mono)">
+              {error}
+            </div>
+          )}
+
+          <div className="space-y-4 mb-6">
+            <div className="flex gap-1 font-(family-name:--font-mono) text-xs border border-border rounded-lg overflow-hidden w-fit">
+              <button
+                onClick={() => setLang("ko")}
+                className={`px-3 py-1.5 transition-colors ${lang === "ko" ? "bg-teal/20 text-teal" : "text-text-secondary hover:text-text"}`}
+              >
+                KR
+              </button>
+              <button
+                onClick={() => setLang("en")}
+                className={`px-3 py-1.5 transition-colors ${lang === "en" ? "bg-teal/20 text-teal" : "text-text-secondary hover:text-text"}`}
+              >
+                EN
+              </button>
+            </div>
             <input
               type="text"
-              value={slug}
-              onChange={(e) => setSlug(e.target.value)}
-              placeholder="slug-url"
-              disabled={isEdit}
-              className="flex-1 bg-surface border border-border rounded-lg px-4 py-2 text-sm text-text font-(family-name:--font-mono) placeholder:text-text-secondary focus:outline-none focus:border-teal disabled:opacity-50"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Title"
+              className="w-full bg-surface border border-border rounded-lg px-4 py-2.5 text-text text-lg font-medium placeholder:text-text-secondary focus:outline-none focus:border-teal"
             />
+            <div className="flex gap-3">
+              <input
+                type="text"
+                value={slug}
+                onChange={(e) => setSlug(e.target.value)}
+                placeholder="slug-url"
+                disabled={isEdit}
+                className="flex-1 bg-surface border border-border rounded-lg px-4 py-2 text-sm text-text font-(family-name:--font-mono) placeholder:text-text-secondary focus:outline-none focus:border-teal disabled:opacity-50"
+              />
+              <input
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                className="bg-surface border border-border rounded-lg px-4 py-2 text-sm text-text font-(family-name:--font-mono) focus:outline-none focus:border-teal"
+              />
+            </div>
             <input
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              className="bg-surface border border-border rounded-lg px-4 py-2 text-sm text-text font-(family-name:--font-mono) focus:outline-none focus:border-teal"
+              type="text"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Short description"
+              className="w-full bg-surface border border-border rounded-lg px-4 py-2 text-sm text-text placeholder:text-text-secondary focus:outline-none focus:border-teal"
             />
           </div>
-          <input
-            type="text"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Short description"
-            className="w-full bg-surface border border-border rounded-lg px-4 py-2 text-sm text-text placeholder:text-text-secondary focus:outline-none focus:border-teal"
-          />
-        </div>
 
-        <div className="flex gap-4 h-[60vh]">
-          <textarea
-            ref={textareaRef}
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            onDrop={handleDrop}
-            onPaste={handlePaste}
-            onDragOver={(e) => e.preventDefault()}
-            placeholder="Write markdown here... (drag & drop or paste images)"
-            className="w-1/2 bg-surface border border-border rounded-lg px-4 py-3 text-sm text-text font-(family-name:--font-mono) leading-relaxed placeholder:text-text-secondary focus:outline-none focus:border-teal resize-none"
-          />
-          <div
-            className="w-1/2 bg-surface border border-border rounded-lg px-6 py-4 overflow-y-auto prose"
-            dangerouslySetInnerHTML={{ __html: previewHtml }}
-          />
+          <div className="flex gap-4 h-[60vh]">
+            <textarea
+              ref={textareaRef}
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              onDrop={handleDrop}
+              onPaste={handlePaste}
+              onDragOver={(e) => e.preventDefault()}
+              placeholder="Write markdown here... (drag & drop or paste images)"
+              className="w-1/2 bg-surface border border-border rounded-lg px-4 py-3 text-sm text-text font-(family-name:--font-mono) leading-relaxed placeholder:text-text-secondary focus:outline-none focus:border-teal resize-none"
+            />
+            <div
+              className="w-1/2 bg-surface border border-border rounded-lg px-6 py-4 overflow-y-auto prose"
+              dangerouslySetInnerHTML={{ __html: previewHtml }}
+            />
+          </div>
         </div>
-      </div>
-    );
-  }
+      );
+    }
 
-  return (
-    <div className="max-w-2xl mx-auto px-6 py-20 md:py-32">
-      <header className="flex items-center justify-between mb-12">
-        <div>
-          <Link
-            href="/"
-            className="font-(family-name:--font-mono) text-xs text-text-secondary hover:text-teal transition-colors"
-          >
-            &larr; Home
-          </Link>
-          <h1 className="font-(family-name:--font-mono) text-xl font-bold text-text mt-4">
-            // admin
-          </h1>
-        </div>
+    return (
+      <div className="max-w-2xl mx-auto px-6 py-20">
         <button
           onClick={handleNew}
           className="bg-teal/10 border border-teal/30 text-teal rounded-lg px-4 py-2 text-sm font-(family-name:--font-mono) hover:bg-teal/20 transition-colors"
         >
           + New Post
         </button>
+
+        {posts.length === 0 ? (
+          <p className="text-sm text-text-secondary mt-8">아직 글이 없습니다.</p>
+        ) : (
+          <div className="space-y-4 mt-6">
+            {posts.map((post) => (
+              <div
+                key={`${post.lang}-${post.slug}`}
+                className="flex items-center justify-between border border-border rounded-lg px-4 py-3"
+              >
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-(family-name:--font-mono) text-[10px] px-1.5 py-0.5 rounded border border-border text-text-secondary">
+                      {post.lang === "ko" ? "KR" : "EN"}
+                    </span>
+                    <p className="text-sm font-medium text-text">{post.title}</p>
+                  </div>
+                  <p className="font-(family-name:--font-mono) text-xs text-border mt-0.5">
+                    {post.date} &middot; {post.slug}
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleEdit(post.slug, post.lang)}
+                    className="text-xs text-text-secondary hover:text-teal transition-colors"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(post.slug, post.lang)}
+                    className="text-xs text-text-secondary hover:text-red-400 transition-colors"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  const platformLabel: Record<string, string> = { instagram: "IG", x: "X", other: "Link" };
+  const platformStyle: Record<string, string> = {
+    instagram: "text-[#E1306C] border-[#E1306C]/30",
+    x: "text-text-secondary border-border",
+    other: "text-text-secondary border-border",
+  };
+
+  function renderCollectionTab() {
+    if (collectionView !== "list") {
+      return (
+        <div className="max-w-2xl mx-auto px-6 py-20">
+          <div className="flex items-center justify-between mb-8">
+            <button
+              onClick={() => { setCollectionView("list"); resetCollectionForm(); }}
+              className="font-(family-name:--font-mono) text-xs text-text-secondary hover:text-teal transition-colors"
+            >
+              &larr; Back
+            </button>
+            <button
+              onClick={handleCollectionSave}
+              disabled={colSaving || !colTitle || !colUrl}
+              className="bg-teal/10 border border-teal/30 text-teal rounded-lg px-4 py-2 text-sm font-(family-name:--font-mono) hover:bg-teal/20 transition-colors disabled:opacity-40"
+            >
+              {colSaving ? "Saving..." : editId ? "Save" : "Add"}
+            </button>
+          </div>
+
+          {collectionError && (
+            <div className="mb-4 rounded-lg border border-red-400/30 bg-red-400/10 px-4 py-2 text-sm text-red-400 font-(family-name:--font-mono)">
+              {collectionError}
+            </div>
+          )}
+
+          <div className="space-y-4">
+            <input
+              type="url"
+              value={colUrl}
+              onChange={(e) => setColUrl(e.target.value)}
+              placeholder="https://..."
+              className="w-full bg-surface border border-border rounded-lg px-4 py-2.5 text-sm text-text font-(family-name:--font-mono) placeholder:text-text-secondary focus:outline-none focus:border-teal"
+            />
+            <input
+              type="text"
+              value={colTitle}
+              onChange={(e) => setColTitle(e.target.value)}
+              placeholder="Title"
+              className="w-full bg-surface border border-border rounded-lg px-4 py-2.5 text-text text-lg font-medium placeholder:text-text-secondary focus:outline-none focus:border-teal"
+            />
+            <input
+              type="text"
+              value={colDesc}
+              onChange={(e) => setColDesc(e.target.value)}
+              placeholder="Short description"
+              className="w-full bg-surface border border-border rounded-lg px-4 py-2 text-sm text-text placeholder:text-text-secondary focus:outline-none focus:border-teal"
+            />
+            <input
+              type="text"
+              value={colTags}
+              onChange={(e) => setColTags(e.target.value)}
+              placeholder="Tags (comma separated)"
+              className="w-full bg-surface border border-border rounded-lg px-4 py-2 text-sm text-text font-(family-name:--font-mono) placeholder:text-text-secondary focus:outline-none focus:border-teal"
+            />
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="max-w-2xl mx-auto px-6 py-20">
+        <button
+          onClick={handleCollectionNew}
+          className="bg-teal/10 border border-teal/30 text-teal rounded-lg px-4 py-2 text-sm font-(family-name:--font-mono) hover:bg-teal/20 transition-colors"
+        >
+          + Add Link
+        </button>
+
+        {collectionLoading ? (
+          <p className="text-sm text-text-secondary mt-8">Loading...</p>
+        ) : collections.length === 0 ? (
+          <p className="text-sm text-text-secondary mt-8">No items yet.</p>
+        ) : (
+          <div className="space-y-4 mt-6">
+            {collections.map((item) => (
+              <div
+                key={item.id}
+                className="flex items-center justify-between border border-border rounded-lg px-4 py-3"
+              >
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2">
+                    <span className={`font-(family-name:--font-mono) text-[10px] px-1.5 py-0.5 rounded border ${platformStyle[item.platform]}`}>
+                      {platformLabel[item.platform]}
+                    </span>
+                    <p className="text-sm font-medium text-text truncate">{item.title}</p>
+                  </div>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <span className="font-(family-name:--font-mono) text-[10px] text-border truncate">{item.url}</span>
+                    <span className="font-(family-name:--font-mono) text-[10px] text-text-secondary shrink-0">{item.date}</span>
+                  </div>
+                  {item.tags.length > 0 && (
+                    <div className="flex gap-1 mt-1">
+                      {item.tags.map((t) => (
+                        <span key={t} className="font-(family-name:--font-mono) text-[10px] text-text-secondary">#{t}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <div className="flex gap-2 shrink-0 ml-4">
+                  <button
+                    onClick={() => handleCollectionEdit(item)}
+                    className="text-xs text-text-secondary hover:text-teal transition-colors"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleCollectionDelete(item.id, item.title)}
+                    className="text-xs text-text-secondary hover:text-red-400 transition-colors"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-2xl mx-auto px-6 py-20 md:py-32">
+      <header className="mb-12">
+        <Link
+          href="/"
+          className="font-(family-name:--font-mono) text-xs text-text-secondary hover:text-teal transition-colors"
+        >
+          &larr; Home
+        </Link>
+        <h1 className="font-(family-name:--font-mono) text-xl font-bold text-text mt-4">
+          // admin
+        </h1>
+        <div className="flex gap-1 font-(family-name:--font-mono) text-xs border border-border rounded-lg overflow-hidden w-fit mt-6">
+          <button
+            onClick={() => { setSection("posts"); setView("list"); }}
+            className={`px-4 py-2 transition-colors ${section === "posts" ? "bg-teal/20 text-teal" : "text-text-secondary hover:text-text"}`}
+          >
+            Posts
+          </button>
+          <button
+            onClick={() => { setSection("collection"); setCollectionView("list"); }}
+            className={`px-4 py-2 transition-colors ${section === "collection" ? "bg-teal/20 text-teal" : "text-text-secondary hover:text-text"}`}
+          >
+            Collection
+          </button>
+        </div>
       </header>
 
-      {posts.length === 0 ? (
-        <p className="text-sm text-text-secondary">아직 글이 없습니다.</p>
-      ) : (
-        <div className="space-y-4">
-          {posts.map((post) => (
-            <div
-              key={`${post.lang}-${post.slug}`}
-              className="flex items-center justify-between border border-border rounded-lg px-4 py-3"
-            >
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="font-(family-name:--font-mono) text-[10px] px-1.5 py-0.5 rounded border border-border text-text-secondary">
-                    {post.lang === "ko" ? "KR" : "EN"}
-                  </span>
-                  <p className="text-sm font-medium text-text">{post.title}</p>
-                </div>
-                <p className="font-(family-name:--font-mono) text-xs text-border mt-0.5">
-                  {post.date} &middot; {post.slug}
-                </p>
-              </div>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => handleEdit(post.slug, post.lang)}
-                  className="text-xs text-text-secondary hover:text-teal transition-colors"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(post.slug, post.lang)}
-                  className="text-xs text-text-secondary hover:text-red-400 transition-colors"
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      {section === "posts" ? renderPostsTab() : renderCollectionTab()}
     </div>
   );
 }
